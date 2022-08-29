@@ -10,12 +10,12 @@ from PyQt5 import uic
 # 단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
 form_class = uic.loadUiType("test.ui")[0]
 
+
 # hz = 30.00
 
 
 # 화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QDialog, form_class):
-
 
     def __init__(self):
         super().__init__()
@@ -26,22 +26,24 @@ class WindowClass(QDialog, form_class):
         self.btn2_clear.clicked.connect(self.btn2_clear_fnc)
         self.btn3_current.clicked.connect(self.bnt3_current_fnc)
         self.list1_hz.itemClicked.connect(self.chkItemClicked)
-        #현재 LISTWIDGET을 0번째 줄로 설정
+        # 현재 LISTWIDGET을 0번째 줄로 설정
         self.list1_hz.setCurrentRow(0)
 
-    ###FUNTIONS###
+    # FUNTIONS #
 
     # 모자이크 활성화 RETURN XML(xml), XMLSTRING(str)
     def enableMosaic(self):
         hz = self.chkItemClicked()
-        f = "C:\\configureMosaic.exe test rows=1 cols=1 res=2560,1600,{0} gridPos=0,0 out=0,0 rotate=0  nextgrid rows=1 cols=1 res=3840,2160,{0} gridPos=2560,0 out=0,1 rotate=0".format(hz, hz)
+        f = "C:\\configureMosaic.exe test rows=1 cols=1 res=2560,1600,{0} gridPos=0,0 out=0,0 rotate=0  nextgrid " \
+            "rows=1 cols=1 res=3840,2160,{0} gridPos=2560,0 out=0,1 rotate=0".format(hz, hz)
         xmlString = os.popen(f).read()
         xml = ET.fromstring(xmlString)
         return xml, xmlString
 
     # listconfigcmd 모자이크 체크 RETURN bool. firstgrid(list), nextgrid(list)
-    def isMosaiced(self):
-        cmd = os.popen("c:\configureMosaic.exe listconfigcmd").read().split(" ")
+    @staticmethod
+    def isMosaiced():
+        cmd = os.popen("c:\\configureMosaic.exe listconfigcmd").read().split(" ")
         rows = cmd[2].split("=")[-1]
         isMosaiced = (int(rows) == 2)
 
@@ -50,14 +52,15 @@ class WindowClass(QDialog, form_class):
         try:
             nextgridIndex = cmd.index('nextgrid')
             nextgrid = cmd[nextgridIndex:nextgridIndex + 4]
-        except:
+        except ValueError:
             nextgrid = None
 
         return isMosaiced, firstgrid, nextgrid
 
-    ###BUTTONS###
+    # BUTTONS #
 
     # LISTWIDGET FUNTION RETURN hz(float)
+
     def chkItemClicked(self):
         hz = self.list1_hz.currentItem().text()
         return float(hz[:-2])
@@ -69,12 +72,11 @@ class WindowClass(QDialog, form_class):
         if not self.chk_1.isChecked():
             self.label1.setText("모자이크 활성화만 진행합니다.")
 
-
     # CURRENT BUTTON FUNCTION
     def bnt3_current_fnc(self):
         self.textLog.clear()
         self.label1.setText("현재 상태입니다.")
-        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        isMosaiced, firstgrid, nextgrid = WindowClass.isMosaiced()
         if isMosaiced:
             self.textLog.appendPlainText("현재 모자이크 상태입니다.")
             self.textLog.appendPlainText(str(firstgrid))
@@ -93,18 +95,17 @@ class WindowClass(QDialog, form_class):
     def btn1_mosaic_fnc(self):
         self.textLog.clear()
         xml, xmlString = self.enableMosaic()
-        # isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        # isMosaiced, firstgrid, nextgrid = WindowClass.isMosaiced()
         # self.textLog.appendPlainText("현재 모자이크 상태는 " + str(isMosaiced) + " 입니다.")
         # self.textLog.appendPlainText(str(firstgrid))
         # self.textLog.appendPlainText(str(nextgrid))
         self.textLog.appendPlainText(xmlString)
 
-        if (xml.attrib['valid']=="1"):
+        if xml.attrib['valid'] == "1":
             self.label1.setText("모자이크가 활성화 되었습니다.")
         else:
             self.bnt3_current_fnc()
             self.label1.setText("모자이크가 활성화에 실패했습니다.")
-
 
 
 if __name__ == "__main__":
