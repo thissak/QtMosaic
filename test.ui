@@ -45,8 +45,8 @@
   <widget class="QCheckBox" name="chk1_sync">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>80</y>
+     <x>80</x>
+     <y>70</y>
      <width>221</width>
      <height>51</height>
     </rect>
@@ -59,37 +59,6 @@
    </property>
    <property name="text">
     <string>continueSync</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn1_mosaic">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>160</y>
-     <width>241</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>34</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>34</height>
-    </size>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::DefaultContextMenu</enum>
-   </property>
-   <property name="acceptDrops">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>EnableMosaic</string>
    </property>
   </widget>
   <widget class="QLabel" name="label1">
@@ -116,9 +85,9 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>250</y>
+     <y>280</y>
      <width>911</width>
-     <height>1041</height>
+     <height>1011</height>
     </rect>
    </property>
    <property name="font">
@@ -130,8 +99,8 @@
   <widget class="QPushButton" name="btn2_clear">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>160</y>
+     <x>620</x>
+     <y>200</y>
      <width>112</width>
      <height>43</height>
     </rect>
@@ -155,8 +124,8 @@
   <widget class="QPushButton" name="btn3_current">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>160</y>
+     <x>620</x>
+     <y>140</y>
      <width>221</width>
      <height>43</height>
     </rect>
@@ -177,14 +146,49 @@
     <string>checkCurrent</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="list1_hz">
+  <widget class="QPushButton" name="btn4_sync">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>120</y>
-     <width>121</width>
-     <height>111</height>
+     <x>80</x>
+     <y>200</y>
+     <width>251</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>EnableSysnc</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn1_mosaic">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>140</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EnableMosaic</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="combo_hz">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>140</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>true</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
    </property>
    <item>
     <property name="text">
@@ -199,6 +203,31 @@
    <item>
     <property name="text">
      <string>120hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="combo_sync">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>200</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <italic>true</italic>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Master</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Slave</string>
     </property>
    </item>
   </widget>
