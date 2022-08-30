@@ -2,7 +2,7 @@
 import os
 import xml.etree.ElementTree as ET
 import sys
-import logging
+import subprocess
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
@@ -33,18 +33,38 @@ class WindowClass(QDialog, form_class):
 
     def disableMosaic(self):
         hz = self.combo_hz_func()
-        f = "c:\configureMosaic.exe test rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
-            "res=3840,2160,{1} out=1,0".format(hz,hz)
-
+        f = "c:\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
+            "res=3840,2160,{1} out=1,0".format(hz, hz)
         xmlString = os.popen(f).read()
         xml = ET.fromstring(xmlString)
         return xml, xmlString
 
+    # 현재 상태 출력
+    def printCurrentState(self):
+        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        self.textLog.clear()
+        self.textLog.appendPlainText(str(firstgrid))
+        self.textLog.appendPlainText(str(nextgrid))
+
+    # 프로그램 강제 종료
+    def killProcess(self, xml):
+        preventApps = self.findPreventApp(xml)
+        for app in preventApps:
+            subprocess.call('taskkill /IM %s /F' % app)
+
+    # FIND PREVENTAPP RETURN LIST
+    @staticmethod
+    def findPreventApp(xml):
+        preventApp = []
+        prevent = xml[0].find('appspreventingmosaic')
+        for app in prevent.iter('app'):
+            preventApp.append(app.get('name'))
+        return preventApp
 
     # 모자이크 활성화 RETURN[xml, str]
     def enableMosaic(self):
         hz = self.combo_hz_func()
-        f = "C:\configureMosaic.exe set cols=1 rows=2 res=3840,2160,{0} out=1,0 out=0,0 maxperf".format(hz)
+        f = "C:\\configureMosaic.exe set cols=1 rows=2 res=3840,2160,{0} out=1,0 out=0,0 maxperf".format(hz)
 
         xmlString = os.popen(f).read()
         xml = ET.fromstring(xmlString)
@@ -62,13 +82,12 @@ class WindowClass(QDialog, form_class):
         firstgrid.insert(0, '1st_grid')
         # nextgrid
         if isMosaiced:
-            nextgrid = None
+            nextgrid = ''
         else:
             nextgridIndex = cmd.index('nextgrid')
             nextgrid = cmd[nextgridIndex:nextgridIndex + 4]
 
         return isMosaiced, firstgrid, nextgrid
-
 
     ###############################################
     # COMBOBOX FUNCTION ###########################
@@ -121,26 +140,72 @@ class WindowClass(QDialog, form_class):
         self.textLog.clear()
         self.label1.setText("log is cleared!")
 
-    # MOSAIC_BUTTON
+    # ENABLE_MOSAIC_BUTTON
     def btn1_mosaic_func(self):
-
-        xml, xmlString = self.enableMosaic()
-        self.textLog.appendPlainText(xmlString)
-        hz = self.combo_hz_func()
-
-        if xml.attrib['valid'] == "1":
-            self.label1.setText("{0}hz 모자이크가 활성화 되었습니다.".format(hz))
+        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        if isMosaiced:
+            self.textLog.clear()
+            self.label1.setText("현재 모자이크 상태입니다.")
+            self.printCurrentState()
+            return
         else:
-            self.bnt3_current_func()
-            self.label1.setText("모자이크가 활성화에 실패했습니다.")
+            self.textLog.clear()
+            xml, xmlString = self.enableMosaic()
+            hz = self.combo_hz_func()
+
+            if xml.attrib['valid'] == "1":
+                self.label1.setText("{0}hz 모자이크가 활성화 되었습니다.".format(hz))
+                self.printCurrentState()
+            else:
+                preventApp = self.findPreventApp(xml)
+                reply = self.killProcess_info_event(preventApp, True)
+                if reply == QMessageBox.Yes:
+                    self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 활성화 합니다')
+                    self.killProcess(xml)
+                    # RECURSION_FUNCTION
+                    self.btn1_mosaic_func()
+                    return
+                else:
+                    self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
+                    return
+
+    # QMESSAGE_BOX
+    def killProcess_info_event(self, preventApp, isEnableMosaic):
+        if isEnableMosaic:
+            message = '\n프로그램이 실행 중 입니다. \n강제 종료 후 모자이크 활성화를 할까요?'
+        else:
+            message = '\n프로그램이 실행되고 있어 모자이크를 비활성화 할 수 없습니다. \n강제 종료 후 모자이크 비활성화를 할까요?'
+        reply = QMessageBox.information(self, 'waring', str(preventApp) + message, QMessageBox.Yes | QMessageBox.No)
+        return reply
 
     # DISABLE_MOSAIC_BUTTON
     def btn5_disableMosaic_func(self):
+        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        hz = self.combo_hz_func()
+        if not isMosaiced:
+            self.label1.setText("현재 모자이크 비활성화 상태입니다.")
+            self.printCurrentState()
+            return
+
         self.textLog.clear()
         xml, xmlString = self.disableMosaic()
-        self.textLog.appendPlainText(xmlString)
+        valid = xml.get('valid')
+        if valid == "0":
+            preventApp = self.findPreventApp(xml)
+            reply = self.killProcess_info_event(preventApp, False)
+            if reply == QMessageBox.Yes:
+                self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 비활성화 합니다')
+                self.killProcess(xml)
+                xml, xmlString = self.disableMosaic()
+                self.printCurrentState()
+                return
+            else:
+                self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
+                return
+        elif xml.attrib['valid'] == "1":
+            self.label1.setText("{0}hz 모자이크가 비활성화 되었습니다.".format(hz))
+            self.printCurrentState()
 
-    # DISABLE_MOSAIC_BUTTON
 
 
 ###############################################
