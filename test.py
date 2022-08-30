@@ -23,18 +23,29 @@ class WindowClass(QDialog, form_class):
         self.btn2_clear.clicked.connect(self.btn2_clear_func)
         self.btn3_current.clicked.connect(self.bnt3_current_func)
         self.btn4_sync.clicked.connect(self.btn4_sync_func)
+        self.btn5_disableMosaic.clicked.connect(self.btn5_disableMosaic_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
         self.combo_sync.currentIndexChanged.connect(self.combo_sync_func)
 
     ###############################################
-    # FUNTIONS #
+    # FUNTIONS ####################################
     ###############################################
+
+    def disableMosaic(self):
+        hz = self.combo_hz_func()
+        f = "c:\configureMosaic.exe test rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
+            "res=3840,2160,{1} out=1,0".format(hz,hz)
+
+        xmlString = os.popen(f).read()
+        xml = ET.fromstring(xmlString)
+        return xml, xmlString
+
 
     # 모자이크 활성화 RETURN[xml, str]
     def enableMosaic(self):
         hz = self.combo_hz_func()
-        f = "C:\\configureMosaic.exe test rows=1 cols=1 res=2560,1600,{0} gridPos=0,0 out=0,0 rotate=0  nextgrid " \
-            "rows=1 cols=1 res=3840,2160,{0} gridPos=2560,0 out=0,1 rotate=0".format(hz, hz)
+        f = "C:\configureMosaic.exe set cols=1 rows=2 res=3840,2160,{0} out=1,0 out=0,0 maxperf".format(hz)
+
         xmlString = os.popen(f).read()
         xml = ET.fromstring(xmlString)
         return xml, xmlString
@@ -43,24 +54,25 @@ class WindowClass(QDialog, form_class):
     @staticmethod
     def isMosaiced():
         cmd = os.popen("c:\\configureMosaic.exe listconfigcmd").read().split(" ")
-        rows = cmd[2].split("=")[-1]
-        isMosaiced = (int(rows) == 2)
+
+        # nextgrid가 cmdlist에 있으면 True, 없으면 False 반환
+        isMosaiced = False if 'nextgrid' in cmd else True
 
         firstgrid = cmd[2:5]
         firstgrid.insert(0, '1st_grid')
-        try:
+        # nextgrid
+        if isMosaiced:
+            nextgrid = None
+        else:
             nextgridIndex = cmd.index('nextgrid')
             nextgrid = cmd[nextgridIndex:nextgridIndex + 4]
-        except ValueError:
-            nextgrid = None
 
         return isMosaiced, firstgrid, nextgrid
 
-    ###############################################
-    # BUTTON'S FUNCTIONS#
-    ###############################################
 
-    # COMBOBOX FUNCTION
+    ###############################################
+    # COMBOBOX FUNCTION ###########################
+    ###############################################
     def combo_hz_func(self):
         hz = float(self.combo_hz.currentText()[:-2])
         return hz
@@ -70,7 +82,9 @@ class WindowClass(QDialog, form_class):
         self.label1.setText("Sync parameter set " + current)
         return current
 
-    # CHECKBOX FUNCTION
+    ###############################################
+    # CHECKBOX FUNCTION ###########################
+    ###############################################
     def chk_btn_func(self):
         if self.chk1_sync.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 싱크작업을 진행합니다.")
@@ -79,7 +93,10 @@ class WindowClass(QDialog, form_class):
             self.label1.setText("모자이크 활성화만 진행합니다.")
             self.btn4_sync.setEnabled(True)
 
-    # BUTTON FUNCTION ###
+    ###############################################
+    # BUTTON FUNCTION #############################
+    ###############################################
+
     # SYNC_BUTTON
     def btn4_sync_func(self):
         current = self.combo_sync_func()
@@ -89,7 +106,7 @@ class WindowClass(QDialog, form_class):
     def bnt3_current_func(self):
         self.textLog.clear()
         self.label1.setText("현재 상태입니다.")
-        isMosaiced, firstgrid, nextgrid = WindowClass.isMosaiced()
+        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
         if isMosaiced:
             self.textLog.appendPlainText("현재 모자이크 상태입니다.")
             self.textLog.appendPlainText(str(firstgrid))
@@ -106,7 +123,7 @@ class WindowClass(QDialog, form_class):
 
     # MOSAIC_BUTTON
     def btn1_mosaic_func(self):
-        self.textLog.clear()
+
         xml, xmlString = self.enableMosaic()
         self.textLog.appendPlainText(xmlString)
         hz = self.combo_hz_func()
@@ -116,6 +133,14 @@ class WindowClass(QDialog, form_class):
         else:
             self.bnt3_current_func()
             self.label1.setText("모자이크가 활성화에 실패했습니다.")
+
+    # DISABLE_MOSAIC_BUTTON
+    def btn5_disableMosaic_func(self):
+        self.textLog.clear()
+        xml, xmlString = self.disableMosaic()
+        self.textLog.appendPlainText(xmlString)
+
+    # DISABLE_MOSAIC_BUTTON
 
 
 ###############################################

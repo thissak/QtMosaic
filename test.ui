@@ -99,7 +99,7 @@
   <widget class="QPushButton" name="btn2_clear">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>780</x>
      <y>200</y>
      <width>112</width>
      <height>43</height>
@@ -124,7 +124,7 @@
   <widget class="QPushButton" name="btn3_current">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>780</x>
      <y>140</y>
      <width>221</width>
      <height>43</height>
@@ -230,6 +230,19 @@
      <string>Slave</string>
     </property>
    </item>
+  </widget>
+  <widget class="QPushButton" name="btn5_disableMosaic">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>140</y>
+     <width>191</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DisableMosaic</string>
+   </property>
   </widget>
  </widget>
  <resources/>
