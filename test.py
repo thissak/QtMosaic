@@ -30,10 +30,26 @@ class WindowClass(QDialog, form_class):
     ###############################################
     # FUNTIONS ####################################
     ###############################################
+    def enableSync(self):
+        current = self.combo_sync_func()
+        self.label1.setText("%s sync 활성화를 진행합니다." % current)
+        if current == 'Master':
+            result = os.popen('C:\\configureQSync.exe +qsync master display 0,1 source HOUSESYNC vmode NTSCPALSECAM').read()
+        elif current == 'Slave':
+            result = os.popen('C:\\configureQSync.exe +qsync slave display 0,1').read()
 
+    # 현재 싱크상태와 MASTER_SLAVE 상태 RETURN BOOL, STR, STR
+    @staticmethod
+    def isSynced():
+        f = os.popen('C:\\configureQSync.exe ?queryTopo').read()
+        Is_synced = f.split('Is synced')[1].split('\n')[0].replace(" ", "").split(":")[-1] == 'YES'
+        syncState = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
+        return Is_synced, syncState, f
+
+   # DISABLE_MOSAIC RETURN XML, STR
     def disableMosaic(self):
         hz = self.combo_hz_func()
-        f = "c:\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
+        f = "c:\\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
             "res=3840,2160,{1} out=1,0".format(hz, hz)
         xmlString = os.popen(f).read()
         xml = ET.fromstring(xmlString)
@@ -70,7 +86,7 @@ class WindowClass(QDialog, form_class):
         xml = ET.fromstring(xmlString)
         return xml, xmlString
 
-    # 모자이크 체크 RETURN[bool, list, list]
+    # 모자이크 체크 RETURN[bool, list(firstgrid), list(nextgrid)]
     @staticmethod
     def isMosaiced():
         cmd = os.popen("c:\\configureMosaic.exe listconfigcmd").read().split(" ")
@@ -116,15 +132,33 @@ class WindowClass(QDialog, form_class):
     # BUTTON FUNCTION #############################
     ###############################################
 
-    # SYNC_BUTTON
+    # ENABLE_SYNC_BUTTON
     def btn4_sync_func(self):
+        # MASTER, SLAVE COMBO_BOX
         current = self.combo_sync_func()
-        self.label1.setText(current + " sync 활성화를 진행합니다.")
+        self.textLog.clear()
+        IsSynced, syncState, f = self.isSynced()
+        isMosaic, _, _ = self.isMosaiced()
+        if IsSynced:
+            self.label1.setText("현재 %s 싱크 상태입니다." % syncState)
+            self.textLog.appendPlainText(f)
+        elif not isMosaic:
+            self.label1.setText("먼저 모자이크 활성화가 필요합니다.")
+            self.printCurrentState()
+        elif isMosaic and not IsSynced:
+            self.enableSync()
+            IsSynced, syncState, f = self.isSynced()
+            if IsSynced:
+                self.label1.setText("%s sync 활성화에 성공했습니다." % current)
+            else:
+                self.label1.setText("%s sync 활성화에 실패했습니다." % current)
+            self.textLog.appendPlainText(result)
 
-    # CURRENT_BUTTON
+    # CHECK_CURRENT_BUTTON
     def bnt3_current_func(self):
         self.textLog.clear()
         self.label1.setText("현재 상태입니다.")
+        IsSynced, syncState, f = self.isSynced()
         isMosaiced, firstgrid, nextgrid = self.isMosaiced()
         if isMosaiced:
             self.textLog.appendPlainText("현재 모자이크 상태입니다.")
@@ -134,28 +168,40 @@ class WindowClass(QDialog, form_class):
             self.textLog.appendPlainText("현재 모자이크 상태가 아닙니다.")
             self.textLog.appendPlainText(str(firstgrid))
             self.textLog.appendPlainText(str(nextgrid))
+        if IsSynced:
+            self.textLog.appendPlainText("현재 %s 싱크 상태입니다." % syncState)
+        else:
+            self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
 
     # CLEAR_BUTTON
     def btn2_clear_func(self):
+        # self.combo_hz.setCurrentIndex(1)
         self.textLog.clear()
         self.label1.setText("log is cleared!")
 
     # ENABLE_MOSAIC_BUTTON
     def btn1_mosaic_func(self):
+        # if self.chk1_sync.isChecked():
+        #     self.label1.setText("싱크작업을 진행합니다")
         isMosaiced, firstgrid, nextgrid = self.isMosaiced()
         if isMosaiced:
             self.textLog.clear()
             self.label1.setText("현재 모자이크 상태입니다.")
             self.printCurrentState()
             return
+        # 모자이크 활성화
         else:
             self.textLog.clear()
             xml, xmlString = self.enableMosaic()
             hz = self.combo_hz_func()
 
+            # 모자이크 활성화에 성공했을때
             if xml.attrib['valid'] == "1":
-                self.label1.setText("{0}hz 모자이크가 활성화 되었습니다.".format(hz))
+                if self.chk1_sync.isChecked():
+                    self.enableSync()
+                self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz))
                 self.printCurrentState()
+
             else:
                 preventApp = self.findPreventApp(xml)
                 reply = self.killProcess_info_event(preventApp, True)
@@ -180,15 +226,21 @@ class WindowClass(QDialog, form_class):
 
     # DISABLE_MOSAIC_BUTTON
     def btn5_disableMosaic_func(self):
+        # 만약 싱크 상태라면 해재한다.
+        IsSynced, syncState, f = self.isSynced()
+        if IsSynced:
+            os.popen('C:\\configureQSync.exe -qsync')
+        # 모자이크 체크
         isMosaiced, firstgrid, nextgrid = self.isMosaiced()
         hz = self.combo_hz_func()
         if not isMosaiced:
             self.label1.setText("현재 모자이크 비활성화 상태입니다.")
             self.printCurrentState()
             return
-
+        # 모자이크 비활성화
         self.textLog.clear()
         xml, xmlString = self.disableMosaic()
+        self.textLog.appendPlainText(xmlString)
         valid = xml.get('valid')
         if valid == "0":
             preventApp = self.findPreventApp(xml)
@@ -196,16 +248,16 @@ class WindowClass(QDialog, form_class):
             if reply == QMessageBox.Yes:
                 self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 비활성화 합니다')
                 self.killProcess(xml)
-                xml, xmlString = self.disableMosaic()
-                self.printCurrentState()
+                # RECURSION_FUNCTION
+                self.btn5_disableMosaic_func()
                 return
             else:
+                self.label1.setText("현재 모자이크 활성화 상태입니다.")
                 self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
                 return
         elif xml.attrib['valid'] == "1":
-            self.label1.setText("{0}hz 모자이크가 비활성화 되었습니다.".format(hz))
+            self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz))
             self.printCurrentState()
-
 
 
 ###############################################
