@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1067</width>
-    <height>593</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="font">
@@ -21,7 +21,7 @@
   <property name="windowTitle">
    <string>Mosaic&amp;Sync</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QDialogButtonBox" name="dialog_ok">
    <property name="geometry">
     <rect>
      <x>750</x>
@@ -233,7 +233,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QComboBox" name="combo_sync">
+  <widget class="QComboBox" name="combo_master">
    <property name="geometry">
     <rect>
      <x>370</x>
@@ -281,7 +281,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>dialog_ok</sender>
    <signal>accepted()</signal>
    <receiver>MosaicNSync</receiver>
    <slot>accept()</slot>
@@ -297,7 +297,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>dialog_ok</sender>
    <signal>rejected()</signal>
    <receiver>MosaicNSync</receiver>
    <slot>reject()</slot>

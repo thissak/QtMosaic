@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
+
+#########################
+# thissa@naver.com ######
+# 2022.09.01       ######
+#########################
+
+
 import os
 import xml.etree.ElementTree as ET
 import sys
 import subprocess
+import configparser
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
@@ -18,23 +26,66 @@ class WindowClass(QDialog, form_class):
         super().__init__()
         self.setupUi(self)
 
-        self.chk1_sync.stateChanged.connect(self.chk_btn_func)
         self.btn1_mosaic.clicked.connect(self.btn1_mosaic_func)
         self.btn2_clear.clicked.connect(self.btn2_clear_func)
         self.btn3_current.clicked.connect(self.bnt3_current_func)
         self.btn4_sync.clicked.connect(self.btn4_sync_func)
         self.btn5_disableMosaic.clicked.connect(self.btn5_disableMosaic_func)
+        self.dialog_ok.accepted.connect(self.dialog_ok_func)
+        self.chk1_sync.stateChanged.connect(self.chk_btn_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
-        self.combo_sync.currentIndexChanged.connect(self.combo_sync_func)
+        self.combo_master.currentIndexChanged.connect(self.combo_master_func)
 
     ###############################################
     # FUNTIONS ####################################
     ###############################################
+
+    # 현재 PARMETER를 RETURN STR(CHECKBOX_SYNC), STR(COMBOBOX_HZ), STR(COMBOBOX_MASTER)
+    def getParam(self):
+        cSync = self.chk1_sync.isChecked()
+        hz = self.combo_hz.currentIndex()
+        master = self.combo_master.currentIndex()
+        return cSync, hz, master
+
+    def setParam(self, cSync, hz, master):
+        self.chk1_sync.setChecked(cSync)
+        self.combo_hz.setCurrentIndex(hz)
+        self.combo_master.setCurrentIndex(master)
+
+    @staticmethod
+    def generateConfig(cSync, hz, master):
+        config = configparser.ConfigParser()
+
+        # 설정파일 오브잭트 만들기
+        config['sicmo'] = {}
+        config['sicmo']['cSync'] = str(cSync)
+        config['sicmo']['hz'] = str(hz)
+        config['sicmo']['master'] = str(master)
+
+        with open('config.ini', 'w', encoding='utf-8') as configFile:
+            config.write(configFile)
+
+    @staticmethod
+    def readConfig():
+        config = configparser.ConfigParser()
+        config.read('config.ini', encoding='utf-8')
+
+        cSync = config['sicmo']['cSync']
+        if cSync == 'True':
+            cSync = True
+        else:
+            cSync = False
+        hz = config['sicmo']['hz']
+        master = config['sicmo']['master']
+
+        return cSync, hz, master
+
     def enableSync(self):
-        current = self.combo_sync_func()
+        current = self.combo_master_func()
         self.label1.setText("%s sync 활성화를 진행합니다." % current)
         if current == 'Master':
-            result = os.popen('C:\\configureQSync.exe +qsync master display 0,1 source HOUSESYNC vmode NTSCPALSECAM').read()
+            result = os.popen(
+                'C:\\configureQSync.exe +qsync master display 0,1 source HOUSESYNC vmode NTSCPALSECAM').read()
         elif current == 'Slave':
             result = os.popen('C:\\configureQSync.exe +qsync slave display 0,1').read()
 
@@ -46,7 +97,7 @@ class WindowClass(QDialog, form_class):
         syncState = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
         return Is_synced, syncState, f
 
-   # DISABLE_MOSAIC RETURN XML, STR
+    # DISABLE_MOSAIC RETURN XML, STR
     def disableMosaic(self):
         hz = self.combo_hz_func()
         f = "c:\\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
@@ -112,8 +163,8 @@ class WindowClass(QDialog, form_class):
         hz = float(self.combo_hz.currentText()[:-2])
         return hz
 
-    def combo_sync_func(self):
-        current = self.combo_sync.currentText()
+    def combo_master_func(self):
+        current = self.combo_master.currentText()
         self.label1.setText("Sync parameter set " + current)
         return current
 
@@ -132,10 +183,16 @@ class WindowClass(QDialog, form_class):
     # BUTTON FUNCTION #############################
     ###############################################
 
+    # DIALOG_OK_BUTTON
+    def dialog_ok_func(self):
+        cSync, hz, master = self.getParam()
+        self.generateConfig(str(cSync), hz, master)
+        print('ok')
+
     # ENABLE_SYNC_BUTTON
     def btn4_sync_func(self):
         # MASTER, SLAVE COMBO_BOX
-        current = self.combo_sync_func()
+        current = self.combo_master_func()
         self.textLog.clear()
         IsSynced, syncState, f = self.isSynced()
         isMosaic, _, _ = self.isMosaiced()
@@ -152,30 +209,33 @@ class WindowClass(QDialog, form_class):
                 self.label1.setText("%s sync 활성화에 성공했습니다." % current)
             else:
                 self.label1.setText("%s sync 활성화에 실패했습니다." % current)
-            self.textLog.appendPlainText(result)
+            # self.textLog.appendPlainText(result)
 
     # CHECK_CURRENT_BUTTON
+    # try except 본사 컴퓨터 테스트용
     def bnt3_current_func(self):
-        self.textLog.clear()
-        self.label1.setText("현재 상태입니다.")
-        IsSynced, syncState, f = self.isSynced()
-        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
-        if isMosaiced:
-            self.textLog.appendPlainText("현재 모자이크 상태입니다.")
-            self.textLog.appendPlainText(str(firstgrid))
-            self.textLog.appendPlainText(str(nextgrid))
-        else:
-            self.textLog.appendPlainText("현재 모자이크 상태가 아닙니다.")
-            self.textLog.appendPlainText(str(firstgrid))
-            self.textLog.appendPlainText(str(nextgrid))
-        if IsSynced:
-            self.textLog.appendPlainText("현재 %s 싱크 상태입니다." % syncState)
-        else:
-            self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
+        try:
+            self.textLog.clear()
+            self.label1.setText("현재 상태입니다.")
+            IsSynced, syncState, f = self.isSynced()
+            isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+            if isMosaiced:
+                self.textLog.appendPlainText("현재 모자이크 상태입니다.")
+                self.textLog.appendPlainText(str(firstgrid))
+                self.textLog.appendPlainText(str(nextgrid))
+            else:
+                self.textLog.appendPlainText("현재 모자이크 상태가 아닙니다.")
+                self.textLog.appendPlainText(str(firstgrid))
+                self.textLog.appendPlainText(str(nextgrid))
+            if IsSynced:
+                self.textLog.appendPlainText("현재 %s 싱크 상태입니다." % syncState)
+            else:
+                self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
+        except Exception as e:
+            self.textLog.appendPlainText(str(e))
 
     # CLEAR_BUTTON
     def btn2_clear_func(self):
-        # self.combo_hz.setCurrentIndex(1)
         self.textLog.clear()
         self.label1.setText("log is cleared!")
 
@@ -270,6 +330,12 @@ if __name__ == "__main__":
 
     # WindowClass의 인스턴스 생성
     myWindow = WindowClass()
+    # ini파일 읽어서 적용하기
+    try:
+        cSync, hz, master = myWindow.readConfig()
+        myWindow.setParam(cSync, int(hz), int(master))
+    except:
+        myWindow.generateConfig(False, 0, 0)
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
