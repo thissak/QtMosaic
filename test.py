@@ -214,25 +214,23 @@ class WindowClass(QDialog, form_class):
     # CHECK_CURRENT_BUTTON
     # try except 본사 컴퓨터 테스트용
     def bnt3_current_func(self):
-        try:
-            self.textLog.clear()
-            self.label1.setText("현재 상태입니다.")
-            IsSynced, syncState, f = self.isSynced()
-            isMosaiced, firstgrid, nextgrid = self.isMosaiced()
-            if isMosaiced:
-                self.textLog.appendPlainText("현재 모자이크 상태입니다.")
-                self.textLog.appendPlainText(str(firstgrid))
-                self.textLog.appendPlainText(str(nextgrid))
-            else:
-                self.textLog.appendPlainText("현재 모자이크 상태가 아닙니다.")
-                self.textLog.appendPlainText(str(firstgrid))
-                self.textLog.appendPlainText(str(nextgrid))
-            if IsSynced:
-                self.textLog.appendPlainText("현재 %s 싱크 상태입니다." % syncState)
-            else:
-                self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
-        except Exception as e:
-            self.textLog.appendPlainText(str(e))
+        self.textLog.clear()
+        self.label1.setText("현재 상태입니다.")
+        IsSynced, syncState, f = self.isSynced()
+        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+        if isMosaiced:
+            self.textLog.appendPlainText("현재 모자이크 상태입니다.")
+            self.textLog.appendPlainText(str(firstgrid))
+            self.textLog.appendPlainText(str(nextgrid))
+        else:
+            self.textLog.appendPlainText("현재 모자이크 상태가 아닙니다.")
+            self.textLog.appendPlainText(str(firstgrid))
+            self.textLog.appendPlainText(str(nextgrid))
+        if IsSynced:
+            self.textLog.appendPlainText("현재 %s 싱크 상태입니다." % syncState)
+        else:
+            self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
+
 
     # CLEAR_BUTTON
     def btn2_clear_func(self):
