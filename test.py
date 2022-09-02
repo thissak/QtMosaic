@@ -31,6 +31,7 @@ class WindowClass(QDialog, form_class):
         self.btn3_current.clicked.connect(self.bnt3_current_func)
         self.btn4_sync.clicked.connect(self.btn4_sync_func)
         self.btn5_disableMosaic.clicked.connect(self.btn5_disableMosaic_func)
+        self.btn6_openNvcpl.clicked.connect(self.btn6_openNvcpl_func)
         self.dialog_ok.accepted.connect(self.dialog_ok_func)
         self.chk1_sync.stateChanged.connect(self.chk_btn_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
@@ -316,6 +317,11 @@ class WindowClass(QDialog, form_class):
         elif xml.attrib['valid'] == "1":
             self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz))
             self.printCurrentState()
+
+    # OPEN NVCPL
+    @staticmethod
+    def btn6_openNvcpl_func():
+        os.popen("C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui.exe")
 
 
 ###############################################
