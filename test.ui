@@ -308,6 +308,32 @@
     <string>...</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn7_setDefault">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>60</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn8_setAdvanced">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>60</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Advanced</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

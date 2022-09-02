@@ -32,6 +32,8 @@ class WindowClass(QDialog, form_class):
         self.btn4_sync.clicked.connect(self.btn4_sync_func)
         self.btn5_disableMosaic.clicked.connect(self.btn5_disableMosaic_func)
         self.btn6_openNvcpl.clicked.connect(self.btn6_openNvcpl_func)
+        self.btn7_setDefault.clicked.connect(self.btn7_setDefault_func)
+        self.btn8_setAdvanced.clicked.connect(self.btn8_setAdvanced_func)
         self.dialog_ok.accepted.connect(self.dialog_ok_func)
         self.chk1_sync.stateChanged.connect(self.chk_btn_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
@@ -232,7 +234,6 @@ class WindowClass(QDialog, form_class):
         else:
             self.textLog.appendPlainText("현재 싱크 상태가 아닙니다.")
 
-
     # CLEAR_BUTTON
     def btn2_clear_func(self):
         self.textLog.clear()
@@ -319,9 +320,22 @@ class WindowClass(QDialog, form_class):
             self.printCurrentState()
 
     # OPEN NVCPL
-    @staticmethod
-    def btn6_openNvcpl_func():
-        os.popen("C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui.exe")
+    def btn6_openNvcpl_func(self):
+        os.popen("C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui"
+                 ".exe")
+        self.label1.setText("nvidia 제어판을 엽니다")
+
+    def btn7_setDefault_func(self):
+        f = os.popen("powershell.exe .\\setDefault.ps1").read()
+        self.label1.setText("Gobal3DPreset is Default")
+        self.textLog.clear()
+        self.textLog.appendPlainText(f)
+
+    def btn8_setAdvanced_func(self):
+        f = os.popen("powershell.exe .\\setAdvanced.ps1").read()
+        self.textLog.clear()
+        self.label1.setText("Gobal3DPreset is Workstation App - Advanced Streaming")
+        self.textLog.appendPlainText(f)
 
 
 ###############################################
