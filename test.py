@@ -158,18 +158,18 @@ class WindowClass(QDialog, form_class):
         cmd = os.popen("c:\\configureMosaic.exe listconfigcmd").read().split(" ")
 
         # nextgrid가 cmdlist에 있으면 True, 없으면 False 반환
-        is_mosaiced = False if 'nextgrid' in cmd else True
+        is_mosaic = False if 'nextgrid' in cmd else True
 
         firstgrid = cmd[2:5]
         firstgrid.insert(0, '1st_grid')
         # nextgrid
-        if is_mosaiced:
+        if is_mosaic:
             nextgrid = ''
         else:
             nextgrid_index = cmd.index('nextgrid')
             nextgrid = cmd[nextgrid_index:nextgrid_index + 4]
 
-        return is_mosaiced, firstgrid, nextgrid
+        return is_mosaic, firstgrid, nextgrid
 
     ###############################################
     # COMBOBOX FUNCTION ###########################
@@ -288,12 +288,12 @@ class WindowClass(QDialog, form_class):
                     return
 
     # QMESSAGE_BOX
-    def kill_process_info_event(self, preventApp, isEnableMosaic):
-        if isEnableMosaic:
+    def kill_process_info_event(self, prevent_app, is_enable_mosaic):
+        if is_enable_mosaic:
             message = '\n프로그램이 실행 중 입니다. \n강제 종료 후 모자이크 활성화를 할까요?'
         else:
             message = '\n프로그램이 실행되고 있어 모자이크를 비활성화 할 수 없습니다. \n강제 종료 후 모자이크 비활성화를 할까요?'
-        reply = QMessageBox.information(self, 'waring', str(preventApp) + message, QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.information(self, 'waring', str(prevent_app) + message, QMessageBox.Yes | QMessageBox.No)
         return reply
 
     # DISABLE_MOSAIC_BUTTON
@@ -303,9 +303,9 @@ class WindowClass(QDialog, form_class):
         if is_synced:
             os.popen('C:\\configureQSync.exe -qsync')
         # 모자이크 체크
-        is_mosaiced, firstgrid, nextgrid = self.is_mosaic()
+        is_mosaic, firstgrid, nextgrid = self.is_mosaic()
         hz_ = self.combo_hz_func()
-        if not is_mosaiced:
+        if not is_mosaic:
             self.label1.setText("현재 모자이크 비활성화 상태입니다.")
             self.print_current_state()
             return
@@ -355,7 +355,6 @@ class WindowClass(QDialog, form_class):
         if f == "":
             self.textLog.clear()
             self.label1.setText("Gobal3DPreset 설정에 실패했습니다.")
-            self.textLog.appendPlainText("https://www.nvidia.com/ko-kr/drivers/nvwmi/ 에서 NVWMI를 설치하세요.")
         else:
             # self.textLog.clear()
             self.label1.setText("Gobal3DPreset is Workstation App - Advanced Streaming")
@@ -374,9 +373,9 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # ini파일 읽어서 적용하기
     try:
-        cSync, hz, master = myWindow.read_config()
-        myWindow.set_params(cSync, int(hz), int(master))
-    except:
+        c_sync, hz_, master_ = myWindow.read_config()
+        myWindow.set_params(c_sync, int(hz_), int(master_))
+    except KeyError:
         myWindow.generate_config(False, 0, 0)
 
     # 프로그램 화면을 보여주는 코드
