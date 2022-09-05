@@ -42,7 +42,7 @@ class WindowClass(QDialog, form_class):
         self.combo_master.currentIndexChanged.connect(self.combo_master_func)
 
     ###############################################
-    # FUNTIONS ####################################
+    # FUNCTIONS ####################################
     ###############################################
 
     # 파워쉘의 권한을 Unrestricted로 설정합니다.
@@ -55,19 +55,19 @@ class WindowClass(QDialog, form_class):
             self.textLog.appendPlainText("ExecutionPolicy is Unrestricted")
 
     # 현재 PARMETER를 RETURN STR(CHECKBOX_SYNC), STR(COMBOBOX_HZ), STR(COMBOBOX_MASTER)
-    def getParam(self):
+    def get_params(self):
         cSync = self.chk1_sync.isChecked()
         hz = self.combo_hz.currentIndex()
         master = self.combo_master.currentIndex()
         return cSync, hz, master
 
-    def setParam(self, cSync, hz, master):
+    def set_param(self, cSync, hz, master_):
         self.chk1_sync.setChecked(cSync)
         self.combo_hz.setCurrentIndex(hz)
-        self.combo_master.setCurrentIndex(master)
+        self.combo_master.setCurrentIndex(master_)
 
     @staticmethod
-    def generateConfig(cSync, hz, master):
+    def generate_config(cSync, hz, master):
         config = configparser.ConfigParser()
 
         # 설정파일 오브잭트 만들기
@@ -80,7 +80,7 @@ class WindowClass(QDialog, form_class):
             config.write(configFile)
 
     @staticmethod
-    def readConfig():
+    def read_config():
         config = configparser.ConfigParser()
         config.read('config.ini', encoding='utf-8')
 
@@ -94,7 +94,7 @@ class WindowClass(QDialog, form_class):
 
         return cSync, hz, master
 
-    def enableSync(self):
+    def enable_sync(self):
         current = self.combo_master_func()
         self.label1.setText("%s sync 활성화를 진행합니다." % current)
         if current == 'Master':
@@ -105,42 +105,42 @@ class WindowClass(QDialog, form_class):
 
     # 현재 싱크상태와 MASTER_SLAVE 상태 RETURN BOOL, STR, STR
     @staticmethod
-    def isSynced():
+    def is_synced():
         f = os.popen('C:\\configureQSync.exe ?queryTopo').read()
-        Is_synced = f.split('Is synced')[1].split('\n')[0].replace(" ", "").split(":")[-1] == 'YES'
-        syncState = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
-        return Is_synced, syncState, f
+        is_synced = f.split('Is synced')[1].split('\n')[0].replace(" ", "").split(":")[-1] == 'YES'
+        sync_state = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
+        return is_synced, sync_state, f
 
     # DISABLE_MOSAIC RETURN XML, STR
-    def disableMosaic(self):
-        hz = self.combo_hz_func()
+    def disable_mosaic(self):
+        hz_ = self.combo_hz_func()
         f = "c:\\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
-            "res=3840,2160,{1} out=1,0".format(hz, hz)
-        xmlString = os.popen(f).read()
-        xml = ET.fromstring(xmlString)
-        return xml, xmlString
+            "res=3840,2160,{1} out=1,0".format(hz_, hz_)
+        xml_string = os.popen(f).read()
+        xml = ET.fromstring(xml_string)
+        return xml, xml_string
 
     # 현재 상태 출력
-    def printCurrentState(self):
-        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
+    def print_current_state(self):
+        _, first_grid, next_grid = self.isMosaiced()
         self.textLog.clear()
-        self.textLog.appendPlainText(str(firstgrid))
-        self.textLog.appendPlainText(str(nextgrid))
+        self.textLog.appendPlainText(str(first_grid))
+        self.textLog.appendPlainText(str(next_grid))
 
     # 프로그램 강제 종료
-    def killProcess(self, xml):
-        preventApps = self.findPreventApp(xml)
-        for app in preventApps:
-            subprocess.call('taskkill /IM %s /F' % app)
+    def kill_process(self, xml):
+        prevent_apps = self.find_prevent_apps(xml)
+        for app_ in prevent_apps:
+            subprocess.call('taskkill /IM %s /F' % app_)
 
     # FIND PREVENTAPP RETURN LIST
     @staticmethod
-    def findPreventApp(xml):
-        preventApp = []
+    def find_prevent_apps(xml):
+        prevent_app = []
         prevent = xml[0].find('appspreventingmosaic')
-        for app in prevent.iter('app'):
-            preventApp.append(app.get('name'))
-        return preventApp
+        for app_ in prevent.iter('app'):
+            prevent_app.append(app_.get('name'))
+        return prevent_app
 
     # 모자이크 활성화 RETURN[xml, str]
     def enableMosaic(self):
@@ -199,8 +199,8 @@ class WindowClass(QDialog, form_class):
 
     # DIALOG_OK_BUTTON
     def dialog_ok_func(self):
-        cSync, hz, master = self.getParam()
-        self.generateConfig(str(cSync), hz, master)
+        cSync, hz, master = self.get_params()
+        self.generate_config(str(cSync), hz, master)
         print('ok')
 
     # ENABLE_SYNC_BUTTON
@@ -208,17 +208,17 @@ class WindowClass(QDialog, form_class):
         # MASTER, SLAVE COMBO_BOX
         current = self.combo_master_func()
         self.textLog.clear()
-        IsSynced, syncState, f = self.isSynced()
+        IsSynced, syncState, f = self.is_synced()
         isMosaic, _, _ = self.isMosaiced()
         if IsSynced:
             self.label1.setText("현재 %s 싱크 상태입니다." % syncState)
             self.textLog.appendPlainText(f)
         elif not isMosaic:
             self.label1.setText("먼저 모자이크 활성화가 필요합니다.")
-            self.printCurrentState()
+            self.print_current_state()
         elif isMosaic and not IsSynced:
-            self.enableSync()
-            IsSynced, syncState, f = self.isSynced()
+            self.enable_sync()
+            IsSynced, syncState, f = self.is_synced()
             if IsSynced:
                 self.label1.setText("%s sync 활성화에 성공했습니다." % current)
             else:
@@ -230,7 +230,7 @@ class WindowClass(QDialog, form_class):
     def bnt3_current_func(self):
         self.textLog.clear()
         self.label1.setText("현재 상태입니다.")
-        IsSynced, syncState, f = self.isSynced()
+        IsSynced, syncState, f = self.is_synced()
         isMosaiced, firstgrid, nextgrid = self.isMosaiced()
         if isMosaiced:
             self.textLog.appendPlainText("현재 모자이크 상태입니다.")
@@ -254,11 +254,11 @@ class WindowClass(QDialog, form_class):
     def btn1_mosaic_func(self):
         # if self.chk1_sync.isChecked():
         #     self.label1.setText("싱크작업을 진행합니다")
-        isMosaiced, firstgrid, nextgrid = self.isMosaiced()
-        if isMosaiced:
+        is_mosaiced, firstgrid, nextgrid = self.isMosaiced()
+        if is_mosaiced:
             self.textLog.clear()
             self.label1.setText("현재 모자이크 상태입니다.")
-            self.printCurrentState()
+            self.print_current_state()
             return
         # 모자이크 활성화
         else:
@@ -269,16 +269,16 @@ class WindowClass(QDialog, form_class):
             # 모자이크 활성화에 성공했을때
             if xml.attrib['valid'] == "1":
                 if self.chk1_sync.isChecked():
-                    self.enableSync()
+                    self.enable_sync()
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz))
-                self.printCurrentState()
+                self.print_current_state()
 
             else:
-                preventApp = self.findPreventApp(xml)
+                preventApp = self.find_prevent_apps(xml)
                 reply = self.killProcess_info_event(preventApp, True)
                 if reply == QMessageBox.Yes:
                     self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 활성화 합니다')
-                    self.killProcess(xml)
+                    self.kill_process(xml)
                     # RECURSION_FUNCTION
                     self.btn1_mosaic_func()
                     return
@@ -298,7 +298,7 @@ class WindowClass(QDialog, form_class):
     # DISABLE_MOSAIC_BUTTON
     def btn5_disableMosaic_func(self):
         # 만약 싱크 상태라면 해재한다.
-        IsSynced, syncState, f = self.isSynced()
+        IsSynced, syncState, f = self.is_synced()
         if IsSynced:
             os.popen('C:\\configureQSync.exe -qsync')
         # 모자이크 체크
@@ -306,19 +306,19 @@ class WindowClass(QDialog, form_class):
         hz = self.combo_hz_func()
         if not isMosaiced:
             self.label1.setText("현재 모자이크 비활성화 상태입니다.")
-            self.printCurrentState()
+            self.print_current_state()
             return
         # 모자이크 비활성화
         self.textLog.clear()
-        xml, xmlString = self.disableMosaic()
+        xml, xmlString = self.disable_mosaic()
         self.textLog.appendPlainText(xmlString)
         valid = xml.get('valid')
         if valid == "0":
-            preventApp = self.findPreventApp(xml)
+            preventApp = self.find_prevent_apps(xml)
             reply = self.killProcess_info_event(preventApp, False)
             if reply == QMessageBox.Yes:
                 self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 비활성화 합니다')
-                self.killProcess(xml)
+                self.kill_process(xml)
                 # RECURSION_FUNCTION
                 self.btn5_disableMosaic_func()
                 return
@@ -328,7 +328,7 @@ class WindowClass(QDialog, form_class):
                 return
         elif xml.attrib['valid'] == "1":
             self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz))
-            self.printCurrentState()
+            self.print_current_state()
 
     # OPEN NVCPL
     def btn6_openNvcpl_func(self):
@@ -373,10 +373,10 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # ini파일 읽어서 적용하기
     try:
-        cSync, hz, master = myWindow.readConfig()
-        myWindow.setParam(cSync, int(hz), int(master))
+        cSync, hz, master = myWindow.read_config()
+        myWindow.set_param(cSync, int(hz), int(master))
     except:
-        myWindow.generateConfig(False, 0, 0)
+        myWindow.generate_config(False, 0, 0)
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
