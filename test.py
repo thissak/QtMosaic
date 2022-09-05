@@ -48,11 +48,11 @@ class WindowClass(QDialog, form_class):
     # 파워쉘의 권한을 Unrestricted로 설정합니다.
     def set_powershell_policy(self):
         f = os.popen("powershell.exe Get-ExecutionPolicy").read()
-        if not f[:-1] == "Unrestricted":
+        if not f == "Unrestricted\n":
             os.popen("powershell.exe Set-ExecutionPolicy Unrestricted")
             time.sleep(2)
         else:
-            self.textLog.appendPlainText("ExecutionPolicy is Unrestricted")
+            self.textLog.appendPlainText("PowerShell ExecutionPolicy : Unrestricted")
 
     # 현재 PARMETER를 RETURN STR(CHECKBOX_SYNC), STR(COMBOBOX_HZ), STR(COMBOBOX_MASTER)
     def get_params(self):
@@ -200,8 +200,8 @@ class WindowClass(QDialog, form_class):
 
     # DIALOG_OK_BUTTON
     def dialog_ok_func(self):
-        c_sync, hz_, master_ = self.get_params()
-        self.generate_config(str(c_sync), hz_, master_)
+        c_sync_, hz_, master_ = self.get_params()
+        self.generate_config(str(c_sync_), hz_, master_)
         print('ok')
 
     # ENABLE_SYNC_BUTTON
@@ -337,27 +337,36 @@ class WindowClass(QDialog, form_class):
                  ".exe")
         self.label1.setText("nvidia 제어판을 엽니다")
 
+    # Gobal3DPreset SET DEFAULT
     def btn7_set_default_func(self):
         self.set_powershell_policy()
         f = os.popen("powershell.exe .\\setDefault.ps1").read()
-        if f == "":
+        if f == "Profile manager instance unavailable\n":
             self.textLog.clear()
-            self.label1.setText("Gobal3DPreset 설정에 실패했습니다.")
-            self.textLog.appendPlainText("https://www.nvidia.com/ko-kr/drivers/nvwmi/ 에서 NVWMI를 설치하세요.")
+            QMessageBox.information(self, "information", '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                                   '필요합니다.</a>')
+            self.label1.setText("Profile3D 설정에 실패했습니다.")
+            self.textLog.appendPlainText(f)
+            self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
         else:
-            # self.textLog.clear()
-            self.label1.setText("Gobal3DPreset is Default")
+            self.textLog.clear()
+            self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
             self.textLog.appendPlainText(f)
 
+    # Gobal3DPreset SET Workstation App - Advanced Streaming
     def btn8_set_advanced_func(self):
         self.set_powershell_policy()
         f = os.popen("powershell.exe .\\setAdvanced.ps1").read()
-        if f == "":
+        if f == "Profile manager instance unavailable\n":
             self.textLog.clear()
-            self.label1.setText("Gobal3DPreset 설정에 실패했습니다.")
+            QMessageBox.information(self, "information", '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                                   '필요합니다.</a>')
+            self.label1.setText("Profile3D 설정에 실패했습니다.")
+            self.textLog.appendPlainText(f)
+            self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
         else:
-            # self.textLog.clear()
-            self.label1.setText("Gobal3DPreset is Workstation App - Advanced Streaming")
+            self.textLog.clear()
+            self.label1.setText("Profile3D: Workstation App - Advanced Streaming 설정에 성공했습니다.")
             self.textLog.appendPlainText(f)
 
 
