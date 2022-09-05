@@ -5,7 +5,7 @@
 # 2022.09.01       ######
 #########################
 
-
+import time
 import os
 import xml.etree.ElementTree as ET
 import sys
@@ -13,6 +13,8 @@ import subprocess
 import configparser
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+
+# pyinstaller -w --uac-admin -F test.py admin 권한으로 실행되는 exe
 
 # UI파일 연결
 # 단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
@@ -42,6 +44,15 @@ class WindowClass(QDialog, form_class):
     ###############################################
     # FUNTIONS ####################################
     ###############################################
+
+    # 파워쉘의 권한을 Unrestricted로 설정합니다.
+    def setPowshellPolicy(self):
+        f = os.popen("powershell.exe Get-ExecutionPolicy").read()
+        if not f[:-1] == "Unrestricted":
+            os.popen("powershell.exe Set-ExecutionPolicy Unrestricted")
+            time.sleep(2)
+        else:
+            self.textLog.appendPlainText("ExecutionPolicy is Unrestricted")
 
     # 현재 PARMETER를 RETURN STR(CHECKBOX_SYNC), STR(COMBOBOX_HZ), STR(COMBOBOX_MASTER)
     def getParam(self):
@@ -326,16 +337,28 @@ class WindowClass(QDialog, form_class):
         self.label1.setText("nvidia 제어판을 엽니다")
 
     def btn7_setDefault_func(self):
+        self.setPowshellPolicy()
         f = os.popen("powershell.exe .\\setDefault.ps1").read()
-        self.label1.setText("Gobal3DPreset is Default")
-        self.textLog.clear()
-        self.textLog.appendPlainText(f)
+        if f == "":
+            self.textLog.clear()
+            self.label1.setText("Gobal3DPreset 설정에 실패했습니다.")
+            self.textLog.appendPlainText("https://www.nvidia.com/ko-kr/drivers/nvwmi/ 에서 NVWMI를 설치하세요.")
+        else:
+            # self.textLog.clear()
+            self.label1.setText("Gobal3DPreset is Default")
+            self.textLog.appendPlainText(f)
 
     def btn8_setAdvanced_func(self):
+        self.setPowshellPolicy()
         f = os.popen("powershell.exe .\\setAdvanced.ps1").read()
-        self.textLog.clear()
-        self.label1.setText("Gobal3DPreset is Workstation App - Advanced Streaming")
-        self.textLog.appendPlainText(f)
+        if f == "":
+            self.textLog.clear()
+            self.label1.setText("Gobal3DPreset 설정에 실패했습니다.")
+            self.textLog.appendPlainText("https://www.nvidia.com/ko-kr/drivers/nvwmi/ 에서 NVWMI를 설치하세요.")
+        else:
+            # self.textLog.clear()
+            self.label1.setText("Gobal3DPreset is Workstation App - Advanced Streaming")
+            self.textLog.appendPlainText(f)
 
 
 ###############################################
