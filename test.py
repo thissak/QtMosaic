@@ -84,15 +84,15 @@ class WindowClass(QDialog, form_class):
         config = configparser.ConfigParser()
         config.read('config.ini', encoding='utf-8')
 
-        c_sync = config['sicmo']['cSync']
-        if c_sync == 'True':
-            c_sync = True
+        c_sync_ = config['sicmo']['cSync']
+        if c_sync_ == 'True':
+            c_sync_ = True
         else:
-            c_sync = False
+            c_sync_ = False
         hz_ = config['sicmo']['hz']
         master_ = config['sicmo']['master']
 
-        return c_sync, hz_, master_
+        return c_sync_, hz_, master_
 
     # result 설정필요
     def enable_sync(self):
@@ -175,8 +175,8 @@ class WindowClass(QDialog, form_class):
     # COMBOBOX FUNCTION ###########################
     ###############################################
     def combo_hz_func(self):
-        hz_ = float(self.combo_hz.currentText()[:-2])
-        return hz_
+        hz__ = float(self.combo_hz.currentText()[:-2])
+        return hz__
 
     def combo_master_func(self):
         current = self.combo_master.currentText()
@@ -373,8 +373,8 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # ini파일 읽어서 적용하기
     try:
-        c_sync, hz_, master_ = myWindow.read_config()
-        myWindow.set_params(c_sync, int(hz_), int(master_))
+        c_sync, hz, master = myWindow.read_config()
+        myWindow.set_params(c_sync, int(hz), int(master))
     except KeyError:
         myWindow.generate_config(False, 0, 0)
 
