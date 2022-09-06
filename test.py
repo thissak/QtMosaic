@@ -386,7 +386,7 @@ if __name__ == "__main__":
         c_sync, hz, master = myWindow.read_config()
         myWindow.set_params(c_sync, int(hz), int(master))
     except KeyError:
-        myWindow.generate_config(False, 0, 0)
+        myWindow.generate_config(False, 1, 0)
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()

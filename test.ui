@@ -36,7 +36,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/icons8-webcam-96.png</normaloff>icons/icons8-webcam-96.png</iconset>
+    <normaloff>icons/free-icon-favorite-4724697.png</normaloff>icons/free-icon-favorite-4724697.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:rgb(140, 140, 140)rgb(61, 61, 61);
@@ -92,8 +92,14 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      <bold>false</bold>
     </font>
    </property>
+   <property name="toolTip">
+    <string>infomation을 표시합니다</string>
+   </property>
    <property name="text">
     <string>Infomation</string>
+   </property>
+   <property name="margin">
+    <number>6</number>
    </property>
   </widget>
   <widget class="QPlainTextEdit" name="textLog">
@@ -160,12 +166,12 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/free-icon-cart-4318459.png</normaloff>icons/free-icon-cart-4318459.png</iconset>
+      <normaloff>icons/free-icon-close-4318452.png</normaloff>icons/free-icon-close-4318452.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -194,7 +200,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      <string>체크박스입니다</string>
     </property>
     <property name="text">
-     <string>continueSync</string>
+     <string>continue Sync</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn1_mosaic">
@@ -216,7 +222,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="text">
-     <string>EnableMosaic</string>
+     <string>Enable Mosaic</string>
     </property>
     <property name="icon">
      <iconset>
@@ -248,7 +254,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="text">
-     <string>Enable_Sysnc</string>
+     <string>Enable Sysnc</string>
     </property>
     <property name="icon">
      <iconset>
@@ -372,8 +378,8 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>28</width>
+      <height>28</height>
      </size>
     </property>
    </widget>
@@ -403,12 +409,12 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/free-icon-menu-4317959.png</normaloff>icons/free-icon-menu-4317959.png</iconset>
+      <normaloff>icons/free-icon-cart-4318459.png</normaloff>icons/free-icon-cart-4318459.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>28</width>
+      <height>28</height>
      </size>
     </property>
    </widget>
@@ -447,7 +453,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      <string>nvidia 제어판을 엽니다.</string>
     </property>
     <property name="text">
-     <string>OpenNvcplui</string>
+     <string>Open Nvcplui</string>
     </property>
     <property name="icon">
      <iconset>
@@ -455,8 +461,8 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>28</width>
+      <height>28</height>
      </size>
     </property>
    </widget>
@@ -508,8 +514,8 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>25</width>
+      <height>25</height>
      </size>
     </property>
    </widget>
@@ -547,16 +553,16 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      <string>현제 상태를 체크 합니다.</string>
     </property>
     <property name="text">
-     <string>checkCurrent</string>
+     <string>Check Current</string>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/free-icon-exclamation-4318460.png</normaloff>icons/free-icon-exclamation-4318460.png</iconset>
+      <normaloff>icons/free-icon-search-4318520.png</normaloff>icons/free-icon-search-4318520.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>28</width>
+      <height>28</height>
      </size>
     </property>
    </widget>
@@ -581,8 +587,8 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
