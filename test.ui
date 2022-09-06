@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Bell MT</family>
+    <family>Constantia</family>
     <pointsize>13</pointsize>
     <weight>50</weight>
     <italic>false</italic>
@@ -40,7 +40,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:rgb(140, 140, 140)rgb(61, 61, 61);
-font: 13pt &quot;Bell MT&quot;;
+font: 13pt &quot;Constantia&quot;;
+
 </string>
   </property>
   <widget class="QDialogButtonBox" name="dialog_ok">
@@ -54,7 +55,7 @@ font: 13pt &quot;Bell MT&quot;;
    </property>
    <property name="font">
     <font>
-     <family>Bell MT</family>
+     <family>Constantia</family>
      <pointsize>13</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -79,7 +80,7 @@ font: 13pt &quot;Bell MT&quot;;
    </property>
    <property name="font">
     <font>
-     <family>Bell MT</family>
+     <family>Constantia</family>
      <pointsize>13</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -101,7 +102,7 @@ font: 13pt &quot;Bell MT&quot;;
    </property>
    <property name="font">
     <font>
-     <family>Bell MT</family>
+     <family>Constantia</family>
      <pointsize>13</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -120,7 +121,7 @@ font: 13pt &quot;Bell MT&quot;;
    </property>
    <property name="font">
     <font>
-     <family>Bell MT</family>
+     <family>Constantia</family>
      <pointsize>13</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -141,7 +142,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -174,7 +175,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -202,7 +203,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -234,7 +235,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -266,7 +267,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -295,18 +296,13 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
-    <item>
-     <property name="text">
-      <string>23.97hz</string>
-     </property>
-    </item>
     <item>
      <property name="text">
       <string>24hz</string>
@@ -352,7 +348,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -381,7 +377,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -423,7 +419,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -464,7 +460,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -505,7 +501,7 @@ font: 13pt &quot;Bell MT&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Bell MT</family>
+      <family>Constantia</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
