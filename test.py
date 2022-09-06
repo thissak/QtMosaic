@@ -13,6 +13,7 @@ import subprocess
 import configparser
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtGui import QIcon
 
 # pyinstaller -w --uac-admin -F test.py admin 권한으로 실행되는 exe
 

@@ -7,33 +7,58 @@
     <x>0</x>
     <y>0</y>
     <width>977</width>
-    <height>576</height>
+    <height>610</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>977</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>977</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="font">
    <font>
-    <family>Consolas</family>
-    <pointsize>10</pointsize>
+    <family>Bell MT</family>
+    <pointsize>13</pointsize>
     <weight>50</weight>
+    <italic>false</italic>
     <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
-   <string>Mosaic&amp;Sync</string>
+   <string>모씽 v1.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/icons8-webcam-96.png</normaloff>icons/icons8-webcam-96.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(140, 140, 140)rgb(61, 61, 61);
+font: 13pt &quot;Bell MT&quot;;
+</string>
   </property>
   <widget class="QDialogButtonBox" name="dialog_ok">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>490</y>
+     <x>670</x>
+     <y>520</y>
      <width>241</width>
      <height>81</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>D2Coding</family>
+     <family>Bell MT</family>
      <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="orientation">
@@ -54,10 +79,11 @@
    </property>
    <property name="font">
     <font>
-     <family>D2Coding</family>
-     <pointsize>15</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <family>Bell MT</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="text">
@@ -70,12 +96,16 @@
      <x>60</x>
      <y>370</y>
      <width>861</width>
-     <height>111</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>D2Coding</family>
+     <family>Bell MT</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
   </widget>
@@ -87,6 +117,15 @@
      <width>531</width>
      <height>241</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bell MT</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
    </property>
    <property name="title">
     <string>mosync</string>
@@ -102,12 +141,26 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
-     <string>Disable
-Mosaic</string>
+     <string>  Disable
+  Mosaic</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-virtual-reality-96.png</normaloff>icons/icons8-virtual-reality-96.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QCheckBox" name="chk1_sync">
@@ -121,7 +174,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="cursor">
@@ -145,11 +202,25 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EnableMosaic</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-laptop-96.png</normaloff>icons/icons8-laptop-96.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn4_sync">
@@ -163,11 +234,25 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
-     <string>EnableSysnc</string>
+     <string>Enable_Sysnc</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-audio-cable-96.png</normaloff>icons/icons8-audio-cable-96.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QComboBox" name="combo_master">
@@ -181,8 +266,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
+      <family>Bell MT</family>
       <pointsize>13</pointsize>
-      <italic>true</italic>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <item>
@@ -207,11 +295,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
+      <family>Bell MT</family>
       <pointsize>13</pointsize>
       <weight>50</weight>
-      <italic>true</italic>
+      <italic>false</italic>
       <bold>false</bold>
-      <underline>false</underline>
      </font>
     </property>
     <item>
@@ -264,7 +352,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -272,6 +364,10 @@ Mosaic</string>
     </property>
     <property name="text">
      <string>Advanced</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-hdd-96.png</normaloff>icons/icons8-hdd-96.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="btn7_setDefault">
@@ -285,7 +381,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -293,6 +393,10 @@ Mosaic</string>
     </property>
     <property name="text">
      <string>Default</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-usb-memory-stick-96.png</normaloff>icons/icons8-usb-memory-stick-96.png</iconset>
     </property>
    </widget>
   </widget>
@@ -311,7 +415,7 @@ Mosaic</string>
    <widget class="QPushButton" name="btn6_openNvcpl">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>70</y>
       <width>151</width>
       <height>41</height>
@@ -319,7 +423,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -328,13 +436,17 @@ Mosaic</string>
     <property name="text">
      <string>OpenNvcplui</string>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-video-card-96.png</normaloff>icons/icons8-video-card-96.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="btn2_clear">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>20</y>
-      <width>71</width>
+      <width>81</width>
       <height>43</height>
      </rect>
     </property>
@@ -352,7 +464,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -361,11 +477,15 @@ Mosaic</string>
     <property name="text">
      <string>clear</string>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-keyboard-96.png</normaloff>icons/icons8-keyboard-96.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="btn3_current">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>20</y>
       <width>151</width>
       <height>43</height>
@@ -385,7 +505,11 @@ Mosaic</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <family>Bell MT</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -393,6 +517,10 @@ Mosaic</string>
     </property>
     <property name="text">
      <string>checkCurrent</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/icons8-tape-drive-96.png</normaloff>icons/icons8-tape-drive-96.png</iconset>
     </property>
    </widget>
   </widget>
