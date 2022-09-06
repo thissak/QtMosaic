@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>977</width>
-    <height>778</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>977</width>
-    <height>778</height>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>977</width>
-    <height>778</height>
+    <height>750</height>
    </size>
   </property>
   <property name="font">
@@ -160,12 +160,12 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-virtual-reality-96.png</normaloff>icons/icons8-virtual-reality-96.png</iconset>
+      <normaloff>icons/free-icon-cart-4318459.png</normaloff>icons/free-icon-cart-4318459.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>32</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
@@ -220,12 +220,12 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-laptop-96.png</normaloff>icons/icons8-laptop-96.png</iconset>
+      <normaloff>icons/free-icon-link-4318475.png</normaloff>icons/free-icon-link-4318475.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>32</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
@@ -252,7 +252,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-audio-cable-96.png</normaloff>icons/icons8-audio-cable-96.png</iconset>
+      <normaloff>icons/free-icon-refresh-4318508.png</normaloff>icons/free-icon-refresh-4318508.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -346,9 +346,9 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>50</y>
+      <y>43</y>
       <width>141</width>
-      <height>34</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -361,23 +361,29 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="toolTip">
-     <string>Workstation App - Advanced Streaming</string>
+     <string>Workstation App - Dynamic Streaming</string>
     </property>
     <property name="text">
      <string>Dynamic</string>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-hdd-96.png</normaloff>icons/icons8-hdd-96.png</iconset>
+      <normaloff>icons/free-icon-basket-4318464.png</normaloff>icons/free-icon-basket-4318464.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn7_setDefault">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>43</y>
       <width>141</width>
-      <height>34</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -397,7 +403,13 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-usb-memory-stick-96.png</normaloff>icons/icons8-usb-memory-stick-96.png</iconset>
+      <normaloff>icons/free-icon-menu-4317959.png</normaloff>icons/free-icon-menu-4317959.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
   </widget>
@@ -439,7 +451,13 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-video-card-96.png</normaloff>icons/icons8-video-card-96.png</iconset>
+      <normaloff>icons/free-icon-lightbulb-4318471.png</normaloff>icons/free-icon-lightbulb-4318471.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn2_clear">
@@ -486,7 +504,13 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-keyboard-96.png</normaloff>icons/icons8-keyboard-96.png</iconset>
+      <normaloff>icons/free-icon-trash-4318544.png</normaloff>icons/free-icon-trash-4318544.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn3_current">
@@ -527,7 +551,13 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/icons8-tape-drive-96.png</normaloff>icons/icons8-tape-drive-96.png</iconset>
+      <normaloff>icons/free-icon-exclamation-4318460.png</normaloff>icons/free-icon-exclamation-4318460.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn7_openLisoner">
@@ -548,6 +578,12 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="icon">
      <iconset>
       <normaloff>icons/Default.ico</normaloff>icons/Default.ico</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
   </widget>
