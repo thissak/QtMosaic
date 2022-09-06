@@ -7,25 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>977</width>
-    <height>610</height>
+    <height>778</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>977</width>
-    <height>0</height>
+    <height>778</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>977</width>
-    <height>16777215</height>
+    <height>778</height>
    </size>
   </property>
   <property name="font">
    <font>
-    <family>Constantia</family>
-    <pointsize>13</pointsize>
+    <family>Bahnschrift Light</family>
+    <pointsize>15</pointsize>
     <weight>50</weight>
     <italic>false</italic>
     <bold>false</bold>
@@ -40,23 +40,22 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:rgb(140, 140, 140)rgb(61, 61, 61);
-font: 13pt &quot;Constantia&quot;;
-
+font: 15pt &quot;Bahnschrift Light&quot;;
 </string>
   </property>
   <widget class="QDialogButtonBox" name="dialog_ok">
    <property name="geometry">
     <rect>
      <x>670</x>
-     <y>520</y>
+     <y>680</y>
      <width>241</width>
      <height>81</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Constantia</family>
-     <pointsize>13</pointsize>
+     <family>Bahnschrift Light</family>
+     <pointsize>15</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -78,10 +77,16 @@ font: 13pt &quot;Constantia&quot;;
      <height>51</height>
     </rect>
    </property>
+   <property name="maximumSize">
+    <size>
+     <width>931</width>
+     <height>52</height>
+    </size>
+   </property>
    <property name="font">
     <font>
-     <family>Constantia</family>
-     <pointsize>13</pointsize>
+     <family>Bahnschrift Light</family>
+     <pointsize>15</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -95,15 +100,15 @@ font: 13pt &quot;Constantia&quot;;
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>370</y>
+     <y>480</y>
      <width>861</width>
-     <height>141</height>
+     <height>191</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Constantia</family>
-     <pointsize>13</pointsize>
+     <family>Bahnschrift Light</family>
+     <pointsize>15</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -115,14 +120,14 @@ font: 13pt &quot;Constantia&quot;;
     <rect>
      <x>60</x>
      <y>110</y>
-     <width>531</width>
-     <height>241</height>
+     <width>521</width>
+     <height>311</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Constantia</family>
-     <pointsize>13</pointsize>
+     <family>Bahnschrift Light</family>
+     <pointsize>15</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -137,13 +142,13 @@ font: 13pt &quot;Constantia&quot;;
       <x>360</x>
       <y>90</y>
       <width>141</width>
-      <height>91</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -175,8 +180,8 @@ font: 13pt &quot;Constantia&quot;;
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -198,13 +203,13 @@ font: 13pt &quot;Constantia&quot;;
       <x>10</x>
       <y>90</y>
       <width>221</width>
-      <height>41</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -228,15 +233,15 @@ font: 13pt &quot;Constantia&quot;;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
+      <y>200</y>
       <width>221</width>
-      <height>41</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -259,16 +264,16 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QComboBox" name="combo_master">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>140</y>
+      <x>240</x>
+      <y>200</y>
       <width>101</width>
-      <height>41</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -288,16 +293,16 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QComboBox" name="combo_hz">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>240</x>
       <y>90</y>
       <width>101</width>
-      <height>41</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -328,10 +333,10 @@ font: 13pt &quot;Constantia&quot;;
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>590</x>
      <y>110</y>
-     <width>311</width>
-     <height>91</height>
+     <width>331</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -340,16 +345,16 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QPushButton" name="btn8_setAdvanced">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>30</y>
-      <width>112</width>
+      <x>170</x>
+      <y>50</y>
+      <width>141</width>
       <height>34</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -359,7 +364,7 @@ font: 13pt &quot;Constantia&quot;;
      <string>Workstation App - Advanced Streaming</string>
     </property>
     <property name="text">
-     <string>Advanced</string>
+     <string>Dynamic</string>
     </property>
     <property name="icon">
      <iconset>
@@ -370,15 +375,15 @@ font: 13pt &quot;Constantia&quot;;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>112</width>
+      <y>50</y>
+      <width>141</width>
       <height>34</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -399,10 +404,10 @@ font: 13pt &quot;Constantia&quot;;
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>230</y>
-     <width>311</width>
-     <height>121</height>
+     <x>590</x>
+     <y>220</y>
+     <width>331</width>
+     <height>201</height>
     </rect>
    </property>
    <property name="title">
@@ -411,16 +416,16 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QPushButton" name="btn6_openNvcpl">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>70</y>
-      <width>151</width>
-      <height>41</height>
+      <x>150</x>
+      <y>120</y>
+      <width>171</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -440,28 +445,34 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QPushButton" name="btn2_clear">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>81</width>
-      <height>43</height>
+      <x>10</x>
+      <y>40</y>
+      <width>131</width>
+      <height>61</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>43</height>
+      <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>16777215</width>
-      <height>43</height>
+      <height>50000</height>
      </size>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -471,7 +482,7 @@ font: 13pt &quot;Constantia&quot;;
      <string>Log clear</string>
     </property>
     <property name="text">
-     <string>clear</string>
+     <string>Clear</string>
     </property>
     <property name="icon">
      <iconset>
@@ -481,10 +492,10 @@ font: 13pt &quot;Constantia&quot;;
    <widget class="QPushButton" name="btn3_current">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>20</y>
-      <width>151</width>
-      <height>43</height>
+      <x>150</x>
+      <y>40</y>
+      <width>171</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -496,13 +507,13 @@ font: 13pt &quot;Constantia&quot;;
     <property name="maximumSize">
      <size>
       <width>16777215</width>
-      <height>43</height>
+      <height>500</height>
      </size>
     </property>
     <property name="font">
      <font>
-      <family>Constantia</family>
-      <pointsize>13</pointsize>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -519,6 +530,52 @@ font: 13pt &quot;Constantia&quot;;
       <normaloff>icons/icons8-tape-drive-96.png</normaloff>icons/icons8-tape-drive-96.png</iconset>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn7_openLisoner">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Listener</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/Default.ico</normaloff>icons/Default.ico</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>440</y>
+     <width>861</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>67</x>
+     <y>90</y>
+     <width>851</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
   </widget>
  </widget>
  <resources/>
