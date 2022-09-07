@@ -41,6 +41,7 @@ class WindowClass(QDialog, form_class):
         self.dialog_ok.accepted.connect(self.dialog_ok_func)
         self.chk1_sync.stateChanged.connect(self.chk1_sync_func)
         self.chk2_set_default.stateChanged.connect(self.chk2_set_default_func)
+        self.chk3_set_dynamic.stateChanged.connect(self.chk3_set_dynamic_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
         self.combo_master.currentIndexChanged.connect(self.combo_master_func)
 
@@ -63,16 +64,18 @@ class WindowClass(QDialog, form_class):
         hz_ = self.combo_hz.currentIndex()
         master_ = self.combo_master.currentIndex()
         profile_ = self.chk2_set_default.isChecked()
-        return c_sync_, hz_, master_, profile_
+        profile_d = self.chk3_set_dynamic.isChecked()
+        return c_sync_, hz_, master_, profile_, profile_d
 
-    def set_params(self, c_sync_, hz_, master_, profile_):
+    def set_params(self, c_sync_, hz_, master_, profile_, profile_d):
         self.chk1_sync.setChecked(c_sync_)
         self.combo_hz.setCurrentIndex(hz_)
         self.combo_master.setCurrentIndex(master_)
         self.chk2_set_default.setChecked(profile_)
+        self.chk3_set_dynamic.setChecked(profile_d)
 
     @staticmethod
-    def generate_config(c_sync_, hz_, master_, profile_):
+    def generate_config(c_sync_, hz_, master_, profile_, profile_d):
         config = configparser.ConfigParser()
 
         # 설정파일 오브잭트 만들기
@@ -81,6 +84,7 @@ class WindowClass(QDialog, form_class):
         config['sicmo']['hz'] = str(hz_)
         config['sicmo']['master'] = str(master_)
         config['sicmo']['profile3d'] = str(profile_)
+        config['sicmo']['profile_d'] = str(profile_d)
 
         with open('config.ini', 'w', encoding='utf-8') as configFile:
             config.write(configFile)
@@ -97,13 +101,21 @@ class WindowClass(QDialog, form_class):
             c_sync_ = False
         hz_ = config['sicmo']['hz']
         master_ = config['sicmo']['master']
+        # Profile3d Default
         profile_ = config['sicmo']['profile3d']
         if profile_ == 'True':
             profile_ = True
         else:
             profile_ = False
+        # Profile3d Dynamic
+        profile_d = config['sicmo']['profile_d']
+        if profile_d == 'True':
+            profile_d = True
+        else:
+            profile_d = False
 
-        return c_sync_, hz_, master_, profile_
+
+        return c_sync_, hz_, master_, profile_, profile_d
 
     # result 설정필요
     def enable_sync(self):
@@ -211,6 +223,12 @@ class WindowClass(QDialog, form_class):
         if not self.chk2_set_default.isChecked():
             self.label1.setText("모자이크 비활성화만 진행합니다.")
 
+    def chk3_set_dynamic_func(self):
+        if self.chk3_set_dynamic.isChecked():
+            self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
+        if not self.chk3_set_dynamic.isChecked():
+            self.label1.setText("모자이크 활성화만 진행합니다.")
+
 
     ###############################################
     # BUTTON FUNCTION #############################
@@ -218,8 +236,8 @@ class WindowClass(QDialog, form_class):
 
     # DIALOG_OK_BUTTON
     def dialog_ok_func(self):
-        c_sync_, hz_, master_, profile_ = self.get_params()
-        self.generate_config(str(c_sync_), hz_, master_, str(profile_))
+        c_sync_, hz_, master_, profile_, profile_d = self.get_params()
+        self.generate_config(str(c_sync_), hz_, master_, str(profile_), str(profile_d))
         print('ok')
 
     # ENABLE_SYNC_BUTTON
@@ -291,6 +309,15 @@ class WindowClass(QDialog, form_class):
                     self.enable_sync()
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
                 self.print_current_state()
+
+                # CHECKBOX3 SET DYNAMIC이 활성화 되있다면 SET ADVANCED 세팅
+                if self.chk3_set_dynamic.isChecked():
+                    self.btn8_set_advanced_func()
+
+                # CHECKBOX2 CONTINUE SYNC가 활성화 되있다면 1초 타임슬립 후 싱크작업
+                if self.chk2_set_default.isChecked():
+                    time.sleep(1)
+                    self.enable_sync()
 
             else:
                 prevent_app = self.find_prevent_apps(xml)
@@ -412,10 +439,10 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # ini파일 읽어서 적용하기
     try:
-        c_sync, hz, master, profile = myWindow.read_config()
-        myWindow.set_params(c_sync, int(hz), int(master), profile)
+        c_sync, hz, master, profile_default, profile_dynamic = myWindow.read_config()
+        myWindow.set_params(c_sync, int(hz), int(master), profile_default, profile_dynamic)
     except KeyError:
-        myWindow.generate_config(False, 1, 0)
+        myWindow.generate_config(False, 1, 0, False, False)
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()

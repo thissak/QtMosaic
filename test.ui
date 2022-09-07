@@ -142,34 +142,6 @@ font: 15pt &quot;Bahnschrift Light&quot;;
    <property name="title">
     <string>mosync</string>
    </property>
-   <widget class="QCheckBox" name="chk1_sync">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>221</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Bahnschrift Light</family>
-      <pointsize>15</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>ArrowCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string>체크박스입니다</string>
-    </property>
-    <property name="text">
-     <string>Continue Sync</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn1_mosaic">
     <property name="geometry">
      <rect>
@@ -301,6 +273,47 @@ font: 15pt &quot;Bahnschrift Light&quot;;
       <string>120hz</string>
      </property>
     </item>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>331</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="chk1_sync">
+       <property name="font">
+        <font>
+         <family>Bahnschrift Light</family>
+         <pointsize>15</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>ArrowCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>체크박스입니다</string>
+       </property>
+       <property name="text">
+        <string>Continue Sync</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chk3_set_dynamic">
+       <property name="text">
+        <string>Set Dynamic</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
