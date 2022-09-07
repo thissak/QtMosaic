@@ -254,7 +254,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="text">
-     <string>Enable Sync</string>
+     <string>Enable Sync.</string>
     </property>
     <property name="icon">
      <iconset>
