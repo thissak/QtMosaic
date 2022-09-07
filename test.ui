@@ -530,7 +530,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="toolTip">
-     <string>현제 상태를 체크 합니다.</string>
+     <string>현재 상태를 체크 합니다.</string>
     </property>
     <property name="text">
      <string>Check Current</string>

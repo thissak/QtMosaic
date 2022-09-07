@@ -5,15 +5,15 @@
 # 2022.09.01       ######
 #########################
 
-import time
 import os
+import time
 import xml.etree.ElementTree as ET
 import sys
 import subprocess
 import configparser
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from PyQt5.QtGui import QIcon
+from PyQt5.QtTest import *
 
 # pyinstaller -w --uac-admin -F test.py admin 권한으로 실행되는 exe
 
@@ -54,7 +54,7 @@ class WindowClass(QDialog, form_class):
         f = os.popen("powershell.exe Get-ExecutionPolicy").read()
         if not f == "Unrestricted\n":
             os.popen("powershell.exe Set-ExecutionPolicy Unrestricted")
-            time.sleep(2)
+            QTest.qWait(1000)
         else:
             self.textLog.appendPlainText("PowerShell ExecutionPolicy : Unrestricted")
 
@@ -114,7 +114,6 @@ class WindowClass(QDialog, form_class):
         else:
             profile_d = False
 
-
         return c_sync_, hz_, master_, profile_, profile_d
 
     # result 설정필요
@@ -127,10 +126,12 @@ class WindowClass(QDialog, form_class):
         elif current == 'Slave':
             result = os.popen('C:\\configureQSync.exe +qsync slave display 0,1').read()
 
+        # !!!싱크 확인 기능 필요!!!
+
     # 현재 싱크상태와 MASTER_SLAVE 상태 RETURN BOOL, STR, STR
-    @staticmethod
-    def is_synced():
+    def is_synced(self):
         f = os.popen('C:\\configureQSync.exe ?queryTopo').read()
+        self.textLog.appendPlainText(f)
         is_synced = f.split('Is synced')[1].split('\n')[0].replace(" ", "").split(":")[-1] == 'YES'
         sync_state = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
         return is_synced, sync_state, f
@@ -229,7 +230,6 @@ class WindowClass(QDialog, form_class):
         if not self.chk3_set_dynamic.isChecked():
             self.label1.setText("모자이크 활성화만 진행합니다.")
 
-
     ###############################################
     # BUTTON FUNCTION #############################
     ###############################################
@@ -289,36 +289,34 @@ class WindowClass(QDialog, form_class):
 
     # ENABLE_MOSAIC_BUTTON
     def btn1_mosaic_func(self):
-        # if self.chk1_sync.isChecked():
-        #     self.label1.setText("싱크작업을 진행합니다")
         is_mosaic, firstgrid, nextgrid = self.is_mosaic()
         if is_mosaic:
             self.textLog.clear()
             self.label1.setText("현재 모자이크 상태입니다.")
             self.print_current_state()
             return
-        # 모자이크 활성화
-        else:
+
+        # 모자이크 상태가 아니면 모자이크 활성화
+        if not is_mosaic:
             self.textLog.clear()
             xml, xml_string = self.enable_mosaic()
             hz_ = self.combo_hz_func()
 
             # 모자이크 활성화에 성공했을때
             if xml.attrib['valid'] == "1":
-                if self.chk1_sync.isChecked():
-                    self.enable_sync()
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
                 self.print_current_state()
 
-                # CHECKBOX3 SET DYNAMIC이 활성화 되있다면 SET ADVANCED 세팅
+                # CHECKBOX3 DYNAMIC 세팅
                 if self.chk3_set_dynamic.isChecked():
+                    self.label1.setText("profile3D: Dynamic streaming 세팅합니다.")
+                    QTest.qWait(3000)
                     self.btn8_set_advanced_func()
 
-                # CHECKBOX2 CONTINUE SYNC가 활성화 되있다면 1초 타임슬립 후 싱크작업
-                if self.chk2_set_default.isChecked():
-                    time.sleep(1)
+                # CHECKBOX2 싱크작업
+                if self.chk1_sync.isChecked():
+                    QTest.qWait(3000)
                     self.enable_sync()
-
             else:
                 prevent_app = self.find_prevent_apps(xml)
                 reply = self.kill_process_info_event(prevent_app, True)
@@ -343,43 +341,48 @@ class WindowClass(QDialog, form_class):
 
     # DISABLE_MOSAIC_BUTTON
     def btn5_disable_mosaic_func(self):
+        self.btn2_clear_func()
         # 만약 싱크 상태라면 해재한다.
         is_synced, sync_state, f = self.is_synced()
         if is_synced:
             os.popen('C:\\configureQSync.exe -qsync')
-        # 모자이크 체크
-        is_mosaic, firstgrid, nextgrid = self.is_mosaic()
         hz_ = self.combo_hz_func()
+        is_mosaic, firstgrid, nextgrid = self.is_mosaic()
+
+        # 만약 모자이크 상태가 아니라면
         if not is_mosaic:
             self.label1.setText("현재 모자이크 비활성화 상태입니다.")
             self.print_current_state()
             return
-        # 모자이크 비활성화
-        self.textLog.clear()
-        xml, xml_string = self.disable_mosaic()
-        self.textLog.appendPlainText(xml_string)
-        valid = xml.get('valid')
-        # 모자이크 비활성화에 실패했다면
-        if valid == "0":
-            prevent_app = self.find_prevent_apps(xml)
-            reply = self.kill_process_info_event(prevent_app, False)
-            if reply == QMessageBox.Yes:
-                self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 비활성화 합니다')
-                self.kill_process(xml)
-                # RECURSION_FUNCTION
-                self.btn5_disable_mosaic_func()
-                return
-            else:
-                self.label1.setText("현재 모자이크 활성화 상태입니다.")
-                self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
-                return
-        # 모자이크 비활성화에 성공했다면
-        elif xml.attrib['valid'] == "1":
-            self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
-            self.print_current_state()
-            # chk2_set_default에 체크되어 있으면 3D Profile 세팅 Default
+        # 만약 모자이크 상태라면 모자이크 비활성화
+        if is_mosaic:
+            # profile3D 체크
             if self.chk2_set_default.isChecked():
+                self.label1.setText("profile3D - default 세팅합니다.")
+                QTest.qWait(1000)
                 self.btn7_set_default_func()
+
+            xml, xml_string = self.disable_mosaic()
+            self.textLog.appendPlainText(xml_string)
+            valid = xml.get('valid')
+            # 모자이크 비활성화에 실패했다면
+            if valid == "0":
+                prevent_app = self.find_prevent_apps(xml)
+                reply = self.kill_process_info_event(prevent_app, False)
+                if reply == QMessageBox.Yes:
+                    self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 비활성화 합니다')
+                    self.kill_process(xml)
+                    # RECURSION_FUNCTION
+                    self.btn5_disable_mosaic_func()
+                    return
+                else:
+                    self.label1.setText("현재 모자이크 활성화 상태입니다.")
+                    self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
+                    return
+            # 모자이크 비활성화에 성공했다면
+            elif xml.attrib['valid'] == "1":
+                self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
+                self.print_current_state()
 
     # OPEN NVCPL
     def btn6_open_nvcpl_func(self):
@@ -390,41 +393,42 @@ class WindowClass(QDialog, form_class):
     # Gobal3DPreset SET DEFAULT
     def btn7_set_default_func(self):
         self.set_powershell_policy()
+        QTest.qWait(1000)
         f = os.popen("powershell.exe .\\setDefault.ps1").read()
-        if f == "Profile manager instance unavailable\n":
-            self.textLog.clear()
-            QMessageBox.information(self, "information", '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
-                                                   '필요합니다.</a>')
+        if "succeed" in f:
+            self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
+            self.textLog.appendPlainText(f)
+        else:
+            QMessageBox.information(self, "information",
+                                    '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                    '필요합니다.</a>')
             self.label1.setText("Profile3D 설정에 실패했습니다.")
             self.textLog.appendPlainText(f)
             self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
-        else:
-            self.textLog.clear()
-            self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
-            self.textLog.appendPlainText(f)
+            return
 
     # Gobal3DPreset SET Workstation App - Advanced Streaming
     def btn8_set_advanced_func(self):
         self.set_powershell_policy()
-        f = os.popen("powershell.exe .\\setAdvanced.ps1").read()
-        if f == "Profile manager instance unavailable\n":
-            self.textLog.clear()
-            QMessageBox.information(self, "information", '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
-                                                   '필요합니다.</a>')
+        QTest.qWait(1000)
+        f = os.popen("powershell.exe .\\setDynamic.ps1").read()
+        if "succeed" in f:
+            self.label1.setText("Profile3D: Workstation App - Dynamic Streaming 설정에 성공했습니다.")
+            self.textLog.appendPlainText(f)
+        else:
+            QMessageBox.information(self, "information",
+                                    '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                    '필요합니다.</a>')
             self.label1.setText("Profile3D 설정에 실패했습니다.")
             self.textLog.appendPlainText(f)
             self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
-        else:
-            self.textLog.clear()
-            self.label1.setText("Profile3D: Workstation App - Advanced Streaming 설정에 성공했습니다.")
-            self.textLog.appendPlainText(f)
+            return
 
     def btn9_openListener_func(self):
         os.popen("C:\\Program Files\\Epic Games\\UE_4.27\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
         f = os.popen("tasklist").read()
         if "SwitchboardListener.exe" in f:
             self.label1.setText("SwitchboardListener 실행에 성공했습니다.")
-
 
 
 ###############################################
@@ -437,6 +441,7 @@ if __name__ == "__main__":
 
     # WindowClass의 인스턴스 생성
     myWindow = WindowClass()
+
     # ini파일 읽어서 적용하기
     try:
         c_sync, hz, master, profile_default, profile_dynamic = myWindow.read_config()

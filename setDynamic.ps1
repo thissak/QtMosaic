@@ -1,4 +1,4 @@
-$namespace = "root\CIMV2\NV"    # Namespace of NVIDIA WMI provider
+﻿$namespace = "root\CIMV2\NV"    # Namespace of NVIDIA WMI provider
 $class = "ProfileManager"       # class to be queried
 if($computer -eq $null)         # if not set globally
 {
