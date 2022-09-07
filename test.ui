@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>977</width>
-    <height>750</height>
+    <height>770</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>977</width>
-    <height>750</height>
+    <height>770</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>977</width>
-    <height>750</height>
+    <height>770</height>
    </size>
   </property>
   <property name="font">
@@ -566,7 +566,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn7_openLisoner">
+   <widget class="QPushButton" name="btn9_openListener">
     <property name="enabled">
      <bool>true</bool>
     </property>

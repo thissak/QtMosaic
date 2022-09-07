@@ -37,6 +37,7 @@ class WindowClass(QDialog, form_class):
         self.btn6_openNvcpl.clicked.connect(self.btn6_open_nvcpl_func)
         self.btn7_setDefault.clicked.connect(self.btn7_set_default_func)
         self.btn8_setAdvanced.clicked.connect(self.btn8_set_advanced_func)
+        self.btn9_openListener.clicked.connect(self.btn9_openListener_func)
         self.dialog_ok.accepted.connect(self.dialog_ok_func)
         self.chk1_sync.stateChanged.connect(self.chk_btn_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
@@ -369,6 +370,12 @@ class WindowClass(QDialog, form_class):
             self.textLog.clear()
             self.label1.setText("Profile3D: Workstation App - Advanced Streaming 설정에 성공했습니다.")
             self.textLog.appendPlainText(f)
+
+    def btn9_openListener_func(self):
+        os.popen("C:\\Program Files\\Epic Games\\UE_4.27\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
+        f = os.popen("tasklist").read()
+        if "SwitchboardListener.exe" in f:
+            self.label1.setText("SwitchboardListener 실행에 성공했습니다.")
 
 
 ###############################################
