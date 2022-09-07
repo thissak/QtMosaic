@@ -96,7 +96,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <string>infomation을 표시합니다</string>
    </property>
    <property name="text">
-    <string>Infomation</string>
+    <string>Information</string>
    </property>
    <property name="margin">
     <number>6</number>
@@ -254,7 +254,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      </font>
     </property>
     <property name="text">
-     <string>Enable Sysnc</string>
+     <string>Enable Sync</string>
     </property>
     <property name="icon">
      <iconset>
@@ -429,7 +429,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     </rect>
    </property>
    <property name="title">
-    <string>ect</string>
+    <string>etc</string>
    </property>
    <widget class="QPushButton" name="btn6_openNvcpl">
     <property name="geometry">
