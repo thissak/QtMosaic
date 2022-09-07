@@ -39,7 +39,8 @@ class WindowClass(QDialog, form_class):
         self.btn8_setAdvanced.clicked.connect(self.btn8_set_advanced_func)
         self.btn9_openListener.clicked.connect(self.btn9_openListener_func)
         self.dialog_ok.accepted.connect(self.dialog_ok_func)
-        self.chk1_sync.stateChanged.connect(self.chk_btn_func)
+        self.chk1_sync.stateChanged.connect(self.chk1_sync_func)
+        self.chk2_set_default.stateChanged.connect(self.chk2_set_default_func)
         self.combo_hz.currentIndexChanged.connect(self.combo_hz_func)
         self.combo_master.currentIndexChanged.connect(self.combo_master_func)
 
@@ -61,15 +62,17 @@ class WindowClass(QDialog, form_class):
         c_sync_ = self.chk1_sync.isChecked()
         hz_ = self.combo_hz.currentIndex()
         master_ = self.combo_master.currentIndex()
-        return c_sync_, hz_, master_
+        profile_ = self.chk2_set_default.isChecked()
+        return c_sync_, hz_, master_, profile_
 
-    def set_params(self, c_sync_, hz_, master_):
+    def set_params(self, c_sync_, hz_, master_, profile_):
         self.chk1_sync.setChecked(c_sync_)
         self.combo_hz.setCurrentIndex(hz_)
         self.combo_master.setCurrentIndex(master_)
+        self.chk2_set_default.setChecked(profile_)
 
     @staticmethod
-    def generate_config(c_sync_, hz_, master_):
+    def generate_config(c_sync_, hz_, master_, profile_):
         config = configparser.ConfigParser()
 
         # 설정파일 오브잭트 만들기
@@ -77,6 +80,7 @@ class WindowClass(QDialog, form_class):
         config['sicmo']['cSync'] = str(c_sync_)
         config['sicmo']['hz'] = str(hz_)
         config['sicmo']['master'] = str(master_)
+        config['sicmo']['profile3d'] = str(profile_)
 
         with open('config.ini', 'w', encoding='utf-8') as configFile:
             config.write(configFile)
@@ -93,8 +97,13 @@ class WindowClass(QDialog, form_class):
             c_sync_ = False
         hz_ = config['sicmo']['hz']
         master_ = config['sicmo']['master']
+        profile_ = config['sicmo']['profile3d']
+        if profile_ == 'True':
+            profile_ = True
+        else:
+            profile_ = False
 
-        return c_sync_, hz_, master_
+        return c_sync_, hz_, master_, profile_
 
     # result 설정필요
     def enable_sync(self):
@@ -188,7 +197,7 @@ class WindowClass(QDialog, form_class):
     ###############################################
     # CHECKBOX FUNCTION ###########################
     ###############################################
-    def chk_btn_func(self):
+    def chk1_sync_func(self):
         if self.chk1_sync.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 싱크작업을 진행합니다.")
             self.btn4_sync.setEnabled(False)
@@ -196,14 +205,21 @@ class WindowClass(QDialog, form_class):
             self.label1.setText("모자이크 활성화만 진행합니다.")
             self.btn4_sync.setEnabled(True)
 
+    def chk2_set_default_func(self):
+        if self.chk2_set_default.isChecked():
+            self.label1.setText("모자이크 비활성화에 이어서 Profile 3d setting을 default로 설정합니다.")
+        if not self.chk2_set_default.isChecked():
+            self.label1.setText("모자이크 비활성화만 진행합니다.")
+
+
     ###############################################
     # BUTTON FUNCTION #############################
     ###############################################
 
     # DIALOG_OK_BUTTON
     def dialog_ok_func(self):
-        c_sync_, hz_, master_ = self.get_params()
-        self.generate_config(str(c_sync_), hz_, master_)
+        c_sync_, hz_, master_, profile_ = self.get_params()
+        self.generate_config(str(c_sync_), hz_, master_, str(profile_))
         print('ok')
 
     # ENABLE_SYNC_BUTTON
@@ -316,6 +332,7 @@ class WindowClass(QDialog, form_class):
         xml, xml_string = self.disable_mosaic()
         self.textLog.appendPlainText(xml_string)
         valid = xml.get('valid')
+        # 모자이크 비활성화에 실패했다면
         if valid == "0":
             prevent_app = self.find_prevent_apps(xml)
             reply = self.kill_process_info_event(prevent_app, False)
@@ -329,9 +346,13 @@ class WindowClass(QDialog, form_class):
                 self.label1.setText("현재 모자이크 활성화 상태입니다.")
                 self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
                 return
+        # 모자이크 비활성화에 성공했다면
         elif xml.attrib['valid'] == "1":
             self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
             self.print_current_state()
+            # chk2_set_default에 체크되어 있으면 3D Profile 세팅 Default
+            if self.chk2_set_default.isChecked():
+                self.btn7_set_default_func()
 
     # OPEN NVCPL
     def btn6_open_nvcpl_func(self):
@@ -378,6 +399,7 @@ class WindowClass(QDialog, form_class):
             self.label1.setText("SwitchboardListener 실행에 성공했습니다.")
 
 
+
 ###############################################
 # main #
 ###############################################
@@ -390,8 +412,8 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # ini파일 읽어서 적용하기
     try:
-        c_sync, hz, master = myWindow.read_config()
-        myWindow.set_params(c_sync, int(hz), int(master))
+        c_sync, hz, master, profile = myWindow.read_config()
+        myWindow.set_params(c_sync, int(hz), int(master), profile)
     except KeyError:
         myWindow.generate_config(False, 1, 0)
 

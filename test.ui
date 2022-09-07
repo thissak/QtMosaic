@@ -126,7 +126,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <rect>
      <x>60</x>
      <y>110</y>
-     <width>521</width>
+     <width>351</width>
      <height>311</height>
     </rect>
    </property>
@@ -142,39 +142,6 @@ font: 15pt &quot;Bahnschrift Light&quot;;
    <property name="title">
     <string>mosync</string>
    </property>
-   <widget class="QPushButton" name="btn5_disableMosaic">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>90</y>
-      <width>141</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Bahnschrift Light</family>
-      <pointsize>15</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>  Disable
-  Mosaic</string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>icons/free-icon-close-4318452.png</normaloff>icons/free-icon-close-4318452.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="chk1_sync">
     <property name="geometry">
      <rect>
@@ -200,7 +167,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
      <string>체크박스입니다</string>
     </property>
     <property name="text">
-     <string>continue Sync</string>
+     <string>Continue Sync</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn1_mosaic">
@@ -435,7 +402,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>120</y>
+      <y>110</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -470,7 +437,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>30</y>
       <width>131</width>
       <height>61</height>
      </rect>
@@ -523,7 +490,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>40</y>
+      <y>30</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -573,7 +540,7 @@ font: 15pt &quot;Bahnschrift Light&quot;;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
+      <y>110</y>
       <width>131</width>
       <height>61</height>
      </rect>
@@ -618,6 +585,74 @@ font: 15pt &quot;Bahnschrift Light&quot;;
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>110</y>
+     <width>161</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>disable</string>
+   </property>
+   <widget class="QPushButton" name="btn5_disableMosaic">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>141</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>  Disable
+  Mosaic</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/free-icon-close-4318452.png</normaloff>icons/free-icon-close-4318452.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="chk2_set_default">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>141</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Bahnschrift Light</family>
+      <pointsize>15</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Set Default</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
