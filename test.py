@@ -29,9 +29,9 @@ class WindowClass(QDialog, form_class):
         self.setupUi(self)
 
         self.btn1_enable_mosaic.clicked.connect(self.btn1_enable_mosaic_func)
-        self.btn4_clear.clicked.connect(self.btn4_clear_func)
-        self.btn3_current.clicked.connect(self.bnt3_check_current_func)
         self.btn2_enable_sync.clicked.connect(self.btn2_enable_sync_func)
+        self.btn3_current.clicked.connect(self.bnt3_check_current_func)
+        self.btn4_clear.clicked.connect(self.btn4_clear_func)
         self.btn5_disableMosaic.clicked.connect(self.btn5_disable_mosaic_func)
         self.btn6_openNvcpl.clicked.connect(self.btn6_open_nvcpl_func)
         self.btn7_setDefault.clicked.connect(self.btn7_set_default_func)
