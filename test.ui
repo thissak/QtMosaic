@@ -341,7 +341,7 @@
    <property name="title">
     <string>Profile3d global setting</string>
    </property>
-   <widget class="QPushButton" name="btn8_setDynamic">
+   <widget class="QPushButton" name="btn8_set_dynamic">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -367,7 +367,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/free-icon-basket-4318464.png</normaloff>icons/free-icon-basket-4318464.png</iconset>
+      <normaloff>icons/free-icon-cart-4318465.png</normaloff>icons/free-icon-cart-4318465.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -376,7 +376,7 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn7_setDefault">
+   <widget class="QPushButton" name="btn7_set_default">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -430,7 +430,7 @@
    <property name="title">
     <string>etc</string>
    </property>
-   <widget class="QPushButton" name="btn6_openNvcpl">
+   <widget class="QPushButton" name="btn6_open_Nvcpl">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -456,7 +456,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/free-icon-lightbulb-4318471.png</normaloff>icons/free-icon-lightbulb-4318471.png</iconset>
+      <normaloff>icons/free-icon-menu-4317959.png</normaloff>icons/free-icon-menu-4317959.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -469,7 +469,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>40</y>
       <width>131</width>
       <height>61</height>
      </rect>
@@ -518,11 +518,11 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn3_current">
+   <widget class="QPushButton" name="btn3_check_current">
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>30</y>
+      <y>40</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -565,7 +565,7 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn9_openListener">
+   <widget class="QPushButton" name="btn9_open_listener">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -591,7 +591,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/Default.ico</normaloff>icons/Default.ico</iconset>
+      <normaloff>icons/unreal.ico</normaloff>icons/unreal.ico</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -645,7 +645,7 @@
    <property name="title">
     <string>disable</string>
    </property>
-   <widget class="QPushButton" name="btn5_disableMosaic">
+   <widget class="QPushButton" name="btn5_disable_mosaic">
     <property name="geometry">
      <rect>
       <x>10</x>

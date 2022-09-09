@@ -28,19 +28,21 @@ class WindowClass(QDialog, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        # push button
         self.btn1_enable_mosaic.clicked.connect(self.btn1_enable_mosaic_func)
         self.btn2_enable_sync.clicked.connect(self.btn2_enable_sync_func)
-        self.btn3_current.clicked.connect(self.bnt3_check_current_func)
+        self.btn3_check_current.clicked.connect(self.bnt3_check_current_func)
         self.btn4_clear.clicked.connect(self.btn4_clear_func)
-        self.btn5_disableMosaic.clicked.connect(self.btn5_disable_mosaic_func)
-        self.btn6_openNvcpl.clicked.connect(self.btn6_open_nvcpl_func)
-        self.btn7_setDefault.clicked.connect(self.btn7_set_default_func)
-        self.btn8_setDynamic.clicked.connect(self.btn8_set_dynamic_func)
-        self.btn9_openListener.clicked.connect(self.btn9_open_switchboard_listener_func)
+        self.btn5_disable_mosaic.clicked.connect(self.btn5_disable_mosaic_func)
+        self.btn6_open_Nvcpl.clicked.connect(self.btn6_open_nvcpl_func)
+        self.btn7_set_default.clicked.connect(self.btn7_set_default_func)
+        self.btn8_set_dynamic.clicked.connect(self.btn8_set_dynamic_func)
+        self.btn9_open_listener.clicked.connect(self.btn9_open_listener_func)
+        # check button
         self.chk1_sync.stateChanged.connect(self.chk1_set_sync_func)
         self.chk2_set_default.stateChanged.connect(self.chk2_set_default_func)
         self.chk3_set_dynamic.stateChanged.connect(self.chk3_set_dynamic_func)
+        # combo box
         self.combo_hz.currentIndexChanged.connect(self.get_combo_hz_func)
         self.combo_master.currentIndexChanged.connect(self.get_combo_master_func)
 
@@ -49,27 +51,56 @@ class WindowClass(QDialog, form_class):
     ###############################################
 
     # SET ICON [button name, icon name]
-    def set_icon(self, button_name, icon):
-        icon_path = "./icons/" + icon + ".png"
+    def set_button(self, button_name, icon_name, sheet_params_):
+        icon_path = "./icons/" + icon_name + ".png"
+        sheet_params = sheet_params_
         if button_name == "btn1_enable_mosaic":
             self.btn1_enable_mosaic.setIcon(QIcon(icon_path))
+            self.btn1_enable_mosaic.setStyleSheet(sheet_params)
         elif button_name == "btn2_enable_sync":
             self.btn2_enable_sync.setIcon(QIcon(icon_path))
+            self.btn2_enable_sync.setStyleSheet(sheet_params)
         elif button_name == "btn3_check_current":
             self.btn3_check_current.setIcon(QIcon(icon_path))
+            self.btn3_check_current.setStyleSheet(sheet_params)
         elif button_name == "btn4_clear":
             self.btn4_clear.setIcon(QIcon(icon_path))
-        elif button_name == "btn5_disable_mosaic":
+            self.btn4_clear.setStyleSheet(sheet_params)
+        elif button_name == "btn5_disableMosaic":
             self.btn5_disable_mosaic.setIcon(QIcon(icon_path))
-        elif button_name == "btn6_open_nvcpl":
-            self.btn6_open_nvcpl.setIcon(QIcon(icon_path))
+            self.btn5_disable_mosaic.setStyleSheet(sheet_params)
+        elif button_name == "btn6_open_Nvcpl":
+            self.btn6_open_Nvcpl.setIcon(QIcon(icon_path))
+            self.btn6_open_Nvcpl.setStyleSheet(sheet_params)
         elif button_name == "btn7_set_default":
             self.btn7_set_default.setIcon(QIcon(icon_path))
+            self.btn7_set_default.setStyleSheet(sheet_params)
         elif button_name == "btn8_set_dynamic":
             self.btn8_set_dynamic.setIcon(QIcon(icon_path))
-        elif button_name == "btn9_open_switchboard_listener":
-            self.btn9_open_switchboard_listener.setIcon(QIcon(icon_path))
+            self.btn8_set_dynamic.setStyleSheet(sheet_params)
+        elif button_name == "btn9_open_listener":
+            self.btn9_open_listener.setIcon(QIcon(icon_path))
+            self.btn9_open_listener.setStyleSheet(sheet_params)
         # self.button_name.setIcon(QIcon(icon_path))
+
+    def set_activate_btn(self, button_name, icon_name):
+        sheet_params = "border-style: solid; border-radius: 5px; border-width: 1px; border-color: black; " \
+                       "background-color: rgb(58, 134, 255);"
+
+        self.set_button(button_name, icon_name, sheet_params)
+
+    def set_deactivate_btn(self):
+        # sheet_params = "color: gray; font: Italic;"
+        sheet_params = ""
+        self.set_button("btn1_enable_mosaic", "free-icon-link-4318475", sheet_params)
+        self.set_button("btn2_enable_sync", "free-icon-refresh-4318508", sheet_params)
+        self.set_button("btn3_check_current", "free-icon-search-4318520", sheet_params)
+        self.set_button("btn4_clear", "free-icon-trash-4318544", sheet_params)
+        self.set_button("btn5_disableMosaic", "free-icon-close-4318452", sheet_params)
+        self.set_button("btn6_open_Nvcpl", "free-icon-menu-4317959", sheet_params)
+        self.set_button("btn7_set_default", "free-icon-cart-4318459", sheet_params)
+        self.set_button("btn8_set_dynamic", "free-icon-cart-4318465", sheet_params)
+        # self.set_button("btn9_open_listener", "Unreal_Logo", sheet_params)
 
     # QMESSAGE_BOX RETURN QMessageBox.Yex or QMessageBox.No
     def query_do_kill_processes(self, prevent_app, is_enable_mosaic):
@@ -261,30 +292,38 @@ class WindowClass(QDialog, form_class):
     # ENABLE MOSAIC에 연관된 옵션
     def chk1_set_sync_func(self):
         if self.chk1_sync.isChecked():
-            self.label1.setText("모자이크 활성화에 이어서 동기화작업을 실행합니다.")
             self.btn2_enable_sync.setEnabled(False)
-        elif not self.chk1_sync.isChecked() and not self.chk3_set_dynamic.isChecked():
-            self.label1.setText("모자이크 활성화만 실행합니다.")
+            if self.chk3_set_dynamic.isChecked():
+                self.label1.setText("모자이크 활성화 -> Profile 3d setting: Dynamic -> 동기화작업을 실행합니다.")
+            else:
+                self.label1.setText("모자이크 활성화 -> 동기화작업을 실행합니다.")
+        elif not self.chk1_sync.isChecked():
             self.btn2_enable_sync.setEnabled(True)
-        elif not self.chk1_sync.isChecked() and self.chk3_set_dynamic.isChecked():
-            self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
-            self.btn2_enable_sync.setEnabled(True)
+            if self.chk3_set_dynamic.isChecked():
+                self.label1.setText("모자이크 활성화 -> Profile 3d setting: Dynamic으로 설정합니다.")
+            else:
+                self.label1.setText("모자이크 활성화만 실행합니다.")
 
     # DISABLE MOSAIC에 연관된 옵션
     def chk2_set_default_func(self):
         if self.chk2_set_default.isChecked():
-            self.label1.setText("모자이크 비활성화에 이어서 Profile 3d setting을 default로 설정합니다.")
+            self.label1.setText("모자이크 비활성화 -> Profile 3d setting: default로 실행합니다.")
         if not self.chk2_set_default.isChecked():
-            self.btn7_setDefault.setStyleSheet('background-color: rgb()')
+            self.btn7_set_default.setStyleSheet('background-color: rgb()')
             self.label1.setText("모자이크 비활성화만 실행합니다.")
 
     def chk3_set_dynamic_func(self):
         if self.chk3_set_dynamic.isChecked():
-            self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
-        elif not self.chk3_set_dynamic.isChecked() and not self.chk1_sync.isChecked():
-            self.label1.setText("모자이크 활성화만 실행합니다.")
-        elif not self.chk3_set_dynamic.isChecked() and self.chk1_sync.isChecked():
-            self.label1.setText("모자이크 활성화와 동기화를 실행합니다.")
+            if self.chk1_sync.isChecked():
+                self.label1.setText("모자이크 활성화 -> Profile 3d setting: Dynamic -> 동기화작업을 실행합니다.")
+            elif not self.chk1_sync.isChecked():
+                self.label1.setText("모자이크 활성화 -> Profile 3d setting: Dynamic으로 실행합니다.")
+
+        if not self.chk3_set_dynamic.isChecked():
+            if self.chk1_sync.isChecked():
+                self.label1.setText("모자이크 활성화 -> 동기화를 실행합니다.")
+            elif not self.chk1_sync.isChecked():
+                self.label1.setText("모자이크 활성화만 실행합니다.")
 
     ###############################################
     # BUTTON FUNCTION #############################
@@ -346,10 +385,8 @@ class WindowClass(QDialog, form_class):
 
     # CLEAR_BUTTON
     def btn4_clear_func(self):
-        # 버튼 텍스트 클리어
-        self.set_icon("btn2_enable_sync", "free-icon-refresh-4318508")
-        self.btn2_enable_sync.setStyleSheet("")
-        self.btn1_enable_mosaic.setStyleSheet("")
+        # 버튼 칼라, 텍스트 클리어
+        self.set_deactivate_btn()
 
         # 라벨, 로그 클리어
         self.textLog.clear()
@@ -492,14 +529,11 @@ class WindowClass(QDialog, form_class):
         else:
             self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
-    def btn9_open_switchboard_listener_func(self):
-        self.btn2_enable_sync.setStyleSheet("border-style: solid;"
-                                            "border-radius: 5px;"
-                                            "border-width: 1px;"
-                                            "border-color: black;"
-                                            "background-color: rgb(58, 134, 255);")
-        self.set_icon("btn2_enable_sync", "free-icon-basket-4318464")
+    def btn9_open_listener_func(self):
         # 아이콘 바꾸기
+        self.set_activate_btn("btn1_enable_mosaic", "icon_link_activate")
+        self.set_activate_btn("btn2_enable_sync", "icon_refresh_activate")
+
         # self.btn2_enable_sync.setIcon(QIcon("./icons/free-icon-basket-4318464.png"))
         # f = os.popen("tasklist").read()
         # if "SwitchboardListener.exe" not in f:
