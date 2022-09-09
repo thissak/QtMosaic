@@ -48,6 +48,29 @@ class WindowClass(QDialog, form_class):
     # FUNCTIONS ###################################
     ###############################################
 
+    # SET ICON [button name, icon name]
+    def set_icon(self, button_name, icon):
+        icon_path = "./icons/" + icon + ".png"
+        if button_name == "btn1_enable_mosaic":
+            self.btn1_enable_mosaic.setIcon(QIcon(icon_path))
+        elif button_name == "btn2_enable_sync":
+            self.btn2_enable_sync.setIcon(QIcon(icon_path))
+        elif button_name == "btn3_check_current":
+            self.btn3_check_current.setIcon(QIcon(icon_path))
+        elif button_name == "btn4_clear":
+            self.btn4_clear.setIcon(QIcon(icon_path))
+        elif button_name == "btn5_disable_mosaic":
+            self.btn5_disable_mosaic.setIcon(QIcon(icon_path))
+        elif button_name == "btn6_open_nvcpl":
+            self.btn6_open_nvcpl.setIcon(QIcon(icon_path))
+        elif button_name == "btn7_set_default":
+            self.btn7_set_default.setIcon(QIcon(icon_path))
+        elif button_name == "btn8_set_dynamic":
+            self.btn8_set_dynamic.setIcon(QIcon(icon_path))
+        elif button_name == "btn9_open_switchboard_listener":
+            self.btn9_open_switchboard_listener.setIcon(QIcon(icon_path))
+        # self.button_name.setIcon(QIcon(icon_path))
+
     # QMESSAGE_BOX RETURN QMessageBox.Yex or QMessageBox.No
     def query_do_kill_processes(self, prevent_app, is_enable_mosaic):
         if is_enable_mosaic:
@@ -271,7 +294,7 @@ class WindowClass(QDialog, form_class):
     def btn2_enable_sync_func(self):
         self.set_info_message("동기화를 실행합니다.")
         # MASTER, SLAVE COMBO_BOX
-        current = self.get_combo_master_func()
+        # current = self.get_combo_master_func()
         self.textLog.clear()
         is_synced, sync_state, f = self.is_synced()
         is_mosaic, _, _ = self.is_mosaic()
@@ -324,6 +347,7 @@ class WindowClass(QDialog, form_class):
     # CLEAR_BUTTON
     def btn4_clear_func(self):
         # 버튼 텍스트 클리어
+        self.set_icon("btn2_enable_sync", "free-icon-refresh-4318508")
         self.btn2_enable_sync.setStyleSheet("")
         self.btn1_enable_mosaic.setStyleSheet("")
 
@@ -474,8 +498,9 @@ class WindowClass(QDialog, form_class):
                                             "border-width: 1px;"
                                             "border-color: black;"
                                             "background-color: rgb(58, 134, 255);")
+        self.set_icon("btn2_enable_sync", "free-icon-basket-4318464")
         # 아이콘 바꾸기
-        self.btn2_enable_sync.setIcon(QIcon("./icons/free-icon-basket-4318464.png"))
+        # self.btn2_enable_sync.setIcon(QIcon("./icons/free-icon-basket-4318464.png"))
         # f = os.popen("tasklist").read()
         # if "SwitchboardListener.exe" not in f:
         #     os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
