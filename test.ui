@@ -119,7 +119,7 @@
    <property name="title">
     <string>mosync</string>
    </property>
-   <widget class="QPushButton" name="btn1_mosaic">
+   <widget class="QPushButton" name="btn1_enable_mosaic">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -140,6 +140,9 @@
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;모자이크 활성화를 실행합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
+    </property>
     <property name="text">
      <string>Enable Mosaic</string>
     </property>
@@ -154,7 +157,7 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn4_sync">
+   <widget class="QPushButton" name="btn2_enable_sync">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -176,7 +179,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;동기화를 실행합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>Enable Sync.</string>
+     <string>Enable Sync</string>
     </property>
     <property name="icon">
      <iconset>
@@ -462,7 +465,7 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn2_clear">
+   <widget class="QPushButton" name="btn4_clear">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -581,7 +584,7 @@
      </font>
     </property>
     <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Unreal Swichboard Listener를 실행합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Swichboard Listener를 실행합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Listener</string>

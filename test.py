@@ -28,37 +28,46 @@ class WindowClass(QDialog, form_class):
         super().__init__()
         self.setupUi(self)
 
-        self.btn1_mosaic.clicked.connect(self.btn1_enable_mosaic_func)
-        self.btn2_clear.clicked.connect(self.btn2_clear_func)
-        self.btn3_current.clicked.connect(self.bnt3_current_func)
-        self.btn4_sync.clicked.connect(self.btn4_sync_func)
+        self.btn1_enable_mosaic.clicked.connect(self.btn1_enable_mosaic_func)
+        self.btn4_clear.clicked.connect(self.btn4_clear_func)
+        self.btn3_current.clicked.connect(self.bnt3_check_current_func)
+        self.btn2_enable_sync.clicked.connect(self.btn2_enable_sync_func)
         self.btn5_disableMosaic.clicked.connect(self.btn5_disable_mosaic_func)
         self.btn6_openNvcpl.clicked.connect(self.btn6_open_nvcpl_func)
         self.btn7_setDefault.clicked.connect(self.btn7_set_default_func)
         self.btn8_setDynamic.clicked.connect(self.btn8_set_dynamic_func)
-        self.btn9_openListener.clicked.connect(self.btn9_open_listener_func)
-        self.chk1_sync.stateChanged.connect(self.chk1_sync_func)
+        self.btn9_openListener.clicked.connect(self.btn9_open_switchboard_listener_func)
+        self.chk1_sync.stateChanged.connect(self.chk1_set_sync_func)
         self.chk2_set_default.stateChanged.connect(self.chk2_set_default_func)
         self.chk3_set_dynamic.stateChanged.connect(self.chk3_set_dynamic_func)
         self.combo_hz.currentIndexChanged.connect(self.get_combo_hz_func)
         self.combo_master.currentIndexChanged.connect(self.get_combo_master_func)
 
     ###############################################
-    # FUNCTIONS ####################################
+    # FUNCTIONS ###################################
     ###############################################
 
+    # QMESSAGE_BOX RETURN QMessageBox.Yex or QMessageBox.No
+    def query_do_kill_processes(self, prevent_app, is_enable_mosaic):
+        if is_enable_mosaic:
+            message = '\n프로그램이 실행 중 입니다. \n강제 종료 후 모자이크 활성화를 할까요?'
+        else:
+            message = '\n프로그램이 실행되고 있어 모자이크를 비활성화 할 수 없습니다. \n강제 종료 후 모자이크 비활성화를 할까요?'
+        reply = QMessageBox.information(self, 'waring', str(prevent_app) + message, QMessageBox.Yes | QMessageBox.No)
+        return reply
+
     # 버튼 클릭시 기존의 label, log를 지우고 information에 message를 출력
-    def set_btn_message(self, message):
-        self.btn2_clear_func()
+    def set_info_message(self, message):
+        self.btn4_clear_func()
         self.label1.setText(message)
-        QTest.qWait(100)
+        QTest.qWait(self, 100)
 
     # 파워쉘의 권한을 Unrestricted로 설정합니다.
     def set_powershell_policy(self):
         f = os.popen("powershell.exe Get-ExecutionPolicy").read()
         if not f == "Unrestricted\n":
             os.popen("powershell.exe Set-ExecutionPolicy Unrestricted")
-            QTest.qWait(1000)
+            QTest.qWait(self, 1000)
         else:
             self.textLog.appendPlainText("PowerShell ExecutionPolicy : Unrestricted")
 
@@ -116,7 +125,7 @@ class WindowClass(QDialog, form_class):
             profile_ = True
         else:
             profile_ = False
-        # Profile3d Dynamic
+        # Profile 3d Dynamic
         profile_d = config['sicmo']['profile_d']
         if profile_d == 'True':
             profile_d = True
@@ -127,7 +136,8 @@ class WindowClass(QDialog, form_class):
 
     # result 설정필요
     def set_enable_sync(self):
-        self.set_btn_message("동기화를 실행합니다.")
+        self.set_info_message("동기화를 실행합니다.")
+        f = ""
         current = self.get_combo_master_func()
         if current == 'Master':
             f = os.popen(
@@ -135,9 +145,9 @@ class WindowClass(QDialog, form_class):
         elif current == 'Slave':
             f = os.popen('C:\\configureQSync.exe +qsync slave display 0,1').read()
         self.textLog.appendPlainText(f)
-        QTest.qWait(3000)
+        QTest.qWait(self, 3000)
 
-    # 현재 동기화상태와 MASTER_SLAVE 상태 RETURN BOOL, STR, STR
+    # 현재 동기화상태와 MASTER_SLAVE 상태 체크: RETURN: BOOL, STR, STR
     def is_synced(self):
         f = os.popen('C:\\configureQSync.exe ?queryTopo').read()
         self.textLog.appendPlainText(f)
@@ -148,9 +158,9 @@ class WindowClass(QDialog, form_class):
         sync_state = f.split('Sync State')[1].split('\n')[0].replace(" ", "").split(":")[-1]
         return is_synced, sync_state, f
 
-    # DISABLE_MOSAIC RETURN XML, STR
+    # SET DISABLE_MOSAIC RETURN XML, STR
     def set_disable_mosaic(self):
-        self.set_btn_message("동기화를 비활성화 합니다.")
+        self.set_info_message("동기화를 비활성화 합니다.")
         hz_ = self.get_combo_hz_func()
         f = "c:\\configureMosaic.exe set rows=1 cols=1 res=3840,2160,{0} out=0,0 nextgrid rows=1 cols=1 " \
             "res=3840,2160,{1} out=1,0".format(hz_, hz_)
@@ -225,7 +235,7 @@ class WindowClass(QDialog, form_class):
     ###############################################
 
     # ENABLE MOSAIC에 연관된 옵션
-    def chk1_sync_func(self):
+    def chk1_set_sync_func(self):
         if self.chk1_sync.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 동기화작업을 실행합니다.")
             self.btn4_sync.setEnabled(False)
@@ -236,6 +246,14 @@ class WindowClass(QDialog, form_class):
             self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
             self.btn4_sync.setEnabled(True)
 
+    # DISABLE MOSAIC에 연관된 옵션
+    def chk2_set_default_func(self):
+        if self.chk2_set_default.isChecked():
+            self.label1.setText("모자이크 비활성화에 이어서 Profile 3d setting을 default로 설정합니다.")
+        if not self.chk2_set_default.isChecked():
+            self.btn7_setDefault.setStyleSheet('background-color: rgb()')
+            self.label1.setText("모자이크 비활성화만 실행합니다.")
+
     def chk3_set_dynamic_func(self):
         if self.chk3_set_dynamic.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
@@ -244,21 +262,13 @@ class WindowClass(QDialog, form_class):
         elif not self.chk3_set_dynamic.isChecked() and self.chk1_sync.isChecked():
             self.label1.setText("모자이크 활성화와 동기화를 실행합니다.")
 
-    # DISABLE MOSAIC에 연관된 옵션
-    def chk2_set_default_func(self):
-        if self.chk2_set_default.isChecked():
-            self.label1.setText("모자이크 비활성화에 이어서 Profile 3d setting을 default로 설정합니다.")
-        if not self.chk2_set_default.isChecked() and not self.chk1_sync.isChecked():
-            pass
-        self.label1.setText("모자이크 비활성화만 실행합니다.")
-
     ###############################################
     # BUTTON FUNCTION #############################
     ###############################################
 
     # ENABLE_SYNC_BUTTON
-    def btn4_sync_func(self):
-        self.set_btn_message("동기화를 실행합니다.")
+    def btn2_enable_sync_func(self):
+        self.set_info_message("동기화를 실행합니다.")
         # MASTER, SLAVE COMBO_BOX
         current = self.get_combo_master_func()
         self.textLog.clear()
@@ -273,39 +283,56 @@ class WindowClass(QDialog, form_class):
         elif is_mosaic and not is_synced:
             self.set_enable_sync()
             # 10초 wait
-            QTest.qWait(8000)
+            QTest.qWait(self, 8000)
             is_synced, sync_state, f = self.is_synced()
             if is_synced:
-                self.set_btn_message("동기화(%s) 작업에 성공했습니다." % sync_state)
+                self.set_info_message("동기화(%s) 작업에 성공했습니다." % sync_state)
 
     # CHECK_CURRENT_BUTTON
-    def bnt3_current_func(self):
+    def bnt3_check_current_func(self):
         self.textLog.clear()
         is_synced, sync_state, f = self.is_synced()
         is_mosaic, first_grid, next_grid = self.is_mosaic()
+
+        # 모자이크상태라면
         if is_mosaic:
             self.textLog.appendPlainText(str(first_grid))
             self.textLog.appendPlainText(str(next_grid))
             mosaic_message = "활성화"
+            # 모자이크 버튼세팅
+            self.btn1_enable_mosaic.setStyleSheet('color: grey; font: Italic')
         else:
             self.textLog.appendPlainText(str(first_grid))
             self.textLog.appendPlainText(str(next_grid))
             mosaic_message = "비활성화"
+            # 모자이크 버튼세팅
+            self.btn1_enable_mosaic.setStyleSheet("")
+
+        # 싱크상태라면
         if is_synced:
             sync_message = "활성화 ({0})".format(sync_state)
+            # 싱크 버튼세팅
+            self.btn2_enable_sync.setStyleSheet('color: grey; font: Italic')
         else:
             sync_message = "비활성화"
+            # 싱크 버튼세팅
+            self.btn2_enable_sync.setStyleSheet("")
         t = "모자이크-{0}, 동기화-{1} 상태입니다.".format(mosaic_message, sync_message)
         self.label1.setText(t)
 
     # CLEAR_BUTTON
-    def btn2_clear_func(self):
+    def btn4_clear_func(self):
+        # 버튼 텍스트 클리어
+        self.btn2_enable_sync.setStyleSheet("")
+        self.btn1_enable_mosaic.setStyleSheet("")
+
+        # 라벨, 로그 클리어
         self.textLog.clear()
-        self.label1.setText("Infomation window ")
+        self.label1.setText("Information window ")
 
     # ENABLE_MOSAIC_BUTTON
     def btn1_enable_mosaic_func(self):
-        self.set_btn_message("모자이크 활성화를 실행합니다.")
+        self.set_info_message("모자이크 활성화를 실행합니다.")
         is_mosaic, firstgrid, nextgrid = self.is_mosaic()
         if is_mosaic:
             self.textLog.clear()
@@ -326,16 +353,16 @@ class WindowClass(QDialog, form_class):
 
                 # CHECKBOX3 DYNAMIC 세팅
                 if self.chk3_set_dynamic.isChecked():
-                    QTest.qWait(3000)
+                    QTest.qWait(self, 3000)
                     self.btn8_set_dynamic_func()
 
                 # CHECKBOX2 동기화작업
                 if self.chk1_sync.isChecked():
-                    QTest.qWait(3000)
-                    self.btn4_sync_func()
+                    QTest.qWait(self, 3000)
+                    self.btn2_enable_sync_func()
             else:
                 prevent_app = self.find_prevent_apps(xml)
-                reply = self.kill_process_info_event(prevent_app, True)
+                reply = self.query_do_kill_processes(prevent_app, True)
                 if reply == QMessageBox.Yes:
                     self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 활성화 합니다')
                     self.kill_process(xml)
@@ -343,25 +370,16 @@ class WindowClass(QDialog, form_class):
                     self.btn1_enable_mosaic_func()
                     return
                 else:
-                    self.btn2_clear_func()
+                    self.btn4_clear_func()
                     self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
                     return
-
-    # QMESSAGE_BOX
-    def kill_process_info_event(self, prevent_app, is_enable_mosaic):
-        if is_enable_mosaic:
-            message = '\n프로그램이 실행 중 입니다. \n강제 종료 후 모자이크 활성화를 할까요?'
-        else:
-            message = '\n프로그램이 실행되고 있어 모자이크를 비활성화 할 수 없습니다. \n강제 종료 후 모자이크 비활성화를 할까요?'
-        reply = QMessageBox.information(self, 'waring', str(prevent_app) + message, QMessageBox.Yes | QMessageBox.No)
-        return reply
 
     # DISABLE_MOSAIC_BUTTON
     def btn5_disable_mosaic_func(self):
         # 만약 동기화 상태라면 해재한다.
         is_synced, sync_state, f = self.is_synced()
         if is_synced:
-            self.set_btn_message("동기화 비활성화를 실행합니다.")
+            self.set_info_message("동기화 비활성화를 실행합니다.")
             os.popen('C:\\configureQSync.exe -qsync')
         hz_ = self.get_combo_hz_func()
 
@@ -376,14 +394,14 @@ class WindowClass(QDialog, form_class):
             # profile3D 체크
             if self.chk2_set_default.isChecked():
                 self.btn7_set_default_func()
-                QTest.qWait(3000)
+                QTest.qWait(self, 3000)
             xml, xml_string = self.set_disable_mosaic()
             self.textLog.appendPlainText(xml_string)
             valid = xml.get('valid')
             # 모자이크 비활성화에 실패했다면
             if valid == "0":
                 prevent_app = self.find_prevent_apps(xml)
-                reply = self.kill_process_info_event(prevent_app, False)
+                reply = self.query_do_kill_processes(prevent_app, False)
                 if reply == QMessageBox.Yes:
                     self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크 비활성화를 실행합니다')
                     self.kill_process(xml)
@@ -401,7 +419,7 @@ class WindowClass(QDialog, form_class):
 
     # OPEN NVCPL
     def btn6_open_nvcpl_func(self):
-        self.set_btn_message("nvidia 제어판을 실행합니다.")
+        self.set_info_message("nvidia 제어판을 실행합니다.")
         os.popen("C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui"
                  ".exe")
 
@@ -410,8 +428,8 @@ class WindowClass(QDialog, form_class):
         is_mosaic, _, _ = self.is_mosaic()
         if is_mosaic:
             self.set_powershell_policy()
-            self.set_btn_message("Profile3D: default로 설정합니다.")
-            QTest.qWait(1000)
+            self.set_info_message("Profile3D: default로 설정합니다.")
+            QTest.qWait(self, 1000)
             f = os.popen("powershell.exe .\\.ddi\\setDefault.ps1").read()
             if "succeed" in f:
                 self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
@@ -425,15 +443,15 @@ class WindowClass(QDialog, form_class):
                 self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
                 return
         else:
-            self.set_btn_message("모자이크 상태에서만 실행 가능합니다.")
+            self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
-    # Gobal3DPreset SET Workstation App - Advanced Streaming
+    # Global 3DPreset SET Workstation App - Advanced Streaming
     def btn8_set_dynamic_func(self):
         is_mosaic, _, _ = self.is_mosaic()
         if is_mosaic:
             self.set_powershell_policy()
-            self.set_btn_message("Profile3D: Workstation App - Dynamic Streaming으로 설정합니다.")
-            QTest.qWait(1000)
+            self.set_info_message("Profile3D: Workstation App - Dynamic Streaming으로 설정합니다.")
+            QTest.qWait(self, 1000)
             f = os.popen("powershell.exe .\\.ddi\\setDynamic.ps1").read()
             if "succeed" in f:
                 self.label1.setText("Profile3D: Workstation App - Dynamic Streaming 설정에 성공했습니다.")
@@ -447,9 +465,9 @@ class WindowClass(QDialog, form_class):
                 self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
                 return
         else:
-            self.set_btn_message("모자이크 상태에서만 실행 가능합니다.")
+            self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
-    def btn9_open_listener_func(self):
+    def btn9_open_switchboard_listener_func(self):
         f = os.popen("tasklist").read()
         if "SwitchboardListener.exe" not in f:
             os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
@@ -457,7 +475,7 @@ class WindowClass(QDialog, form_class):
             if "SwitchboardListener.exe" in f:
                 self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
         else:
-            self.set_btn_message("Switchboard Listener가 이미 실행중입니다.")
+            self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
 
 
 ###############################################
@@ -480,7 +498,7 @@ if __name__ == "__main__":
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
-    myWindow.btn2_clear_func()
+    myWindow.btn4_clear_func()
 
     # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
     app.exec()
