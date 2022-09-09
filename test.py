@@ -13,6 +13,7 @@ import configparser
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtTest import *
+from PyQt5.QtGui import QIcon
 
 # pyinstaller -w --uac-admin -F --icon=./mosync.ico test.py /////admin 권한으로 실행되는 exe
 
@@ -238,13 +239,13 @@ class WindowClass(QDialog, form_class):
     def chk1_set_sync_func(self):
         if self.chk1_sync.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 동기화작업을 실행합니다.")
-            self.btn4_sync.setEnabled(False)
+            self.btn2_enable_sync.setEnabled(False)
         elif not self.chk1_sync.isChecked() and not self.chk3_set_dynamic.isChecked():
             self.label1.setText("모자이크 활성화만 실행합니다.")
-            self.btn4_sync.setEnabled(True)
+            self.btn2_enable_sync.setEnabled(True)
         elif not self.chk1_sync.isChecked() and self.chk3_set_dynamic.isChecked():
             self.label1.setText("모자이크 활성화에 이어서 Profile 3d setting을 Dynamic으로 설정합니다.")
-            self.btn4_sync.setEnabled(True)
+            self.btn2_enable_sync.setEnabled(True)
 
     # DISABLE MOSAIC에 연관된 옵션
     def chk2_set_default_func(self):
@@ -468,14 +469,21 @@ class WindowClass(QDialog, form_class):
             self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
     def btn9_open_switchboard_listener_func(self):
-        f = os.popen("tasklist").read()
-        if "SwitchboardListener.exe" not in f:
-            os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
-            f = os.popen("tasklist").read()
-            if "SwitchboardListener.exe" in f:
-                self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
-        else:
-            self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
+        self.btn2_enable_sync.setStyleSheet("border-style: solid;"
+                                            "border-radius: 5px;"
+                                            "border-width: 1px;"
+                                            "border-color: black;"
+                                            "background-color: rgb(58, 134, 255);")
+        # 아이콘 바꾸기
+        self.btn2_enable_sync.setIcon(QIcon("./icons/free-icon-basket-4318464.png"))
+        # f = os.popen("tasklist").read()
+        # if "SwitchboardListener.exe" not in f:
+        #     os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
+        #     f = os.popen("tasklist").read()
+        #     if "SwitchboardListener.exe" in f:
+        #         self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
+        # else:
+        #     self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
 
 
 ###############################################
