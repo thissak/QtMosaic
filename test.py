@@ -49,6 +49,7 @@ class WindowClass(QDialog, form_class):
     ###############################################
     # FUNCTIONS ###################################
     ###############################################
+    #버그픽스
 
     # SET ICON [button name, icon name]
     def set_button(self, button_name, icon_name, sheet_params_):
