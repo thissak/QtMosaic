@@ -84,7 +84,7 @@ class WindowClass(QDialog, form_class):
             self.btn9_open_listener.setStyleSheet(sheet_params)
         # self.button_name.setIcon(QIcon(icon_path))
 
-    # 현재 3D profile을 반환한다.
+    # 현재 3D profile을 반환한다. RETURN STR
     @staticmethod
     def get_currentProfile3D():
         profile = os.popen(
