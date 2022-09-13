@@ -542,17 +542,17 @@
     <property name="font">
      <font>
       <family>Bahnschrift Light</family>
-      <pointsize>15</pointsize>
+      <pointsize>13</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
-     <string>현재 상태를 체크 합니다.</string>
+     <string>사용가능한 버튼을 체크합니다.</string>
     </property>
     <property name="text">
-     <string>Check Current</string>
+     <string>Check Available</string>
     </property>
     <property name="icon">
      <iconset>

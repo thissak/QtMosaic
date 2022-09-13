@@ -35,8 +35,8 @@ class WindowClass(QDialog, form_class):
         self.btn4_clear.clicked.connect(self.btn4_clear_func)
         self.btn5_disable_mosaic.clicked.connect(self.btn5_disable_mosaic_func)
         self.btn6_open_Nvcpl.clicked.connect(self.btn6_open_nvcpl_func)
-        self.btn7_set_default.clicked.connect(self.btn7_set_default_func)
-        self.btn8_set_dynamic.clicked.connect(self.btn8_set_dynamic_func)
+        self.btn7_set_default.clicked.connect(self.btn7_set_profile_default_func)
+        self.btn8_set_dynamic.clicked.connect(self.btn8_set_profile_dynamic_func)
         self.btn9_open_listener.clicked.connect(self.btn9_open_listener_func)
         # check button
         self.chk1_sync.stateChanged.connect(self.chk1_set_sync_func)
@@ -84,9 +84,17 @@ class WindowClass(QDialog, form_class):
             self.btn9_open_listener.setStyleSheet(sheet_params)
         # self.button_name.setIcon(QIcon(icon_path))
 
+    # 현재 3D profile을 반환한다.
+    @staticmethod
+    def get_currentProfile3D():
+        profile = os.popen(
+            'powershell.exe $PM = Get-WmiObject -Class "ProfileManager" -ComputerName "localhost" -Namespace '
+            '"root\\CIMV2\\NV"; write $PM.currentProfile3D').read()
+        return profile
+
     def set_activate_btn(self, button_name, icon_name):
         sheet_params = "border-style: solid; border-radius: 5px; border-width: 1px; border-color: black; " \
-                       "background-color: rgb(255, 224, 49);"
+                       "background-color: rgba(255, 224, 49, 200);"
 
         self.set_button(button_name, icon_name, sheet_params)
 
@@ -387,6 +395,14 @@ class WindowClass(QDialog, form_class):
             # 버튼세팅
             self.set_deactivate_btn("btn1_enable_mosaic")
             self.set_activate_btn("btn5_disable_mosaic", "free-icon-lightbulb-4318471")
+            # 3D PROFILE CHECK
+            profile3d = self.get_currentProfile3D()
+            if 'Workstation App - Dynamic Streaming' in profile3d:
+                self.set_activate_btn("btn7_set_default", "free-icon-basket-4318464")
+                self.set_deactivate_btn("btn8_set_dynamic")
+            else:
+                self.set_activate_btn("btn8_set_dynamic", "free-icon-basket-4318464")
+                self.set_deactivate_btn("btn7_set_default")
         elif not is_mosaic:
             mosaic_message = "비활성화"
             # 버튼세팅
@@ -441,7 +457,7 @@ class WindowClass(QDialog, form_class):
                 # CHECKBOX3츼 체크가 되어있으면 결과가 참일때만 동기화 작업
                 if self.chk3_set_dynamic.isChecked():
                     QTest.qWait(3000)
-                    result = self.btn8_set_dynamic_func()
+                    result = self.btn8_set_profile_dynamic_func()
 
                     if result:
                         # CHECKBOX2 동기화작업
@@ -489,7 +505,7 @@ class WindowClass(QDialog, form_class):
         if is_mosaic:
             # profile3D 체크
             if self.chk2_set_default.isChecked():
-                self.btn7_set_default_func()
+                self.btn7_set_profile_default_func()
                 QTest.qWait(3000)
             # 모자이크 비활성화
             QTest.qWait(100)
@@ -526,7 +542,7 @@ class WindowClass(QDialog, form_class):
             print("error")
 
     # Gobal3DPreset SET DEFAULT
-    def btn7_set_default_func(self):
+    def btn7_set_profile_default_func(self):
         is_mosaic, _, _ = self.is_mosaic()
         if is_mosaic:
             self.set_powershell_policy()
@@ -548,7 +564,7 @@ class WindowClass(QDialog, form_class):
             self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
     # Global 3DPreset SET Workstation App - Advanced Streaming RETURN BOOL(성공하면 True, 실패하면 False 반환)
-    def btn8_set_dynamic_func(self):
+    def btn8_set_profile_dynamic_func(self):
         is_mosaic, _, _ = self.is_mosaic()
         if is_mosaic:
             self.set_powershell_policy()
@@ -572,19 +588,14 @@ class WindowClass(QDialog, form_class):
             return False
 
     def btn9_open_listener_func(self):
-        # 아이콘 바꾸기
-        self.set_activate_btn("btn1_enable_mosaic", "icon_link_activate")
-        self.set_activate_btn("btn2_enable_sync", "icon_refresh_activate")
-
-        # self.btn2_enable_sync.setIcon(QIcon("./icons/free-icon-basket-4318464.png"))
-        # f = os.popen("tasklist").read()
-        # if "SwitchboardListener.exe" not in f:
-        #     os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
-        #     f = os.popen("tasklist").read()
-        #     if "SwitchboardListener.exe" in f:
-        #         self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
-        # else:
-        #     self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
+        f = os.popen("tasklist").read()
+        if "SwitchboardListener.exe" not in f:
+            os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
+            f = os.popen("tasklist").read()
+            if "SwitchboardListener.exe" in f:
+                self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
+        else:
+            self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
 
 
 ###############################################
