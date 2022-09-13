@@ -100,7 +100,8 @@ class WindowClass(QDialog, form_class):
                        "border-style: solid; border-radius: 5px; " \
                        "background-color: rgba(255, 224, 49, 200); border-radius: 5px;}" \
                        "QPushButton:hover{background-color: rgba(255, 224, 149, 220);}" \
-                       "QPushButton:pressed{background-color: rgba(255, 255, 70, 205);}"
+                       "QPushButton:pressed{background-color: rgba(255, 255, 70, 205);}" \
+                       "QPushButton:released{background-color: rgba(255, 224, 49, 200);}"
 
         self.set_button(button_name, icon_name, sheet_params)
 
@@ -497,6 +498,10 @@ class WindowClass(QDialog, form_class):
             if xml.attrib['valid'] == "1":
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
                 self.print_current_state()
+                # SET DYNAMIC이 체크되어 있다면 Profile 설정
+                if self.chk3_set_dynamic.isChecked():
+                    QTest.qWait(3000)
+                    self.btn8_set_profile_dynamic_func()
                 # CONTINUE SYNC가 체크되어 있다면 동기화 작업
                 if self.chk1_sync.isChecked():
                     QTest.qWait(3000)
