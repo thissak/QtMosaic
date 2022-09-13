@@ -15,7 +15,7 @@ from PyQt5 import uic
 from PyQt5.QtTest import *
 from PyQt5.QtGui import QIcon
 
-# pyinstaller -w --uac-admin -F --icon=./mosync.ico moSinc_v1.0.py /////admin 권한으로 실행되는 exe
+# pyinstaller -w -F --uac-admin --icon=./mosync.ico moSinc_v1.0.py /////admin 권한으로 실행되는 exe( --uac-admin)
 
 # UI파일 연결
 # 단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
@@ -99,8 +99,8 @@ class WindowClass(QDialog, form_class):
                        "selection-color: yellow;" \
                        "border-style: solid; border-radius: 5px; " \
                        "background-color: rgba(255, 224, 49, 200); border-radius: 5px;}" \
-                       "QPushButton:hover{background-color: rgba(255, 224, 49, 100);}" \
-                       "QPushButton:pressed{background-color: rgba(211, 255, 0, 205);}"
+                       "QPushButton:hover{background-color: rgba(255, 224, 149, 220);}" \
+                       "QPushButton:pressed{background-color: rgba(255, 255, 70, 205);}"
 
         self.set_button(button_name, icon_name, sheet_params)
 
