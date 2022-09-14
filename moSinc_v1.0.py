@@ -494,32 +494,37 @@ class WindowClass(QDialog, form_class):
             xml, xml_string = self.set_enable_mosaic()
             hz_ = self.get_combo_hz_func()
 
-            # 모자이크 활성화에 성공했을때
-            if xml.attrib['valid'] == "1":
-                self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
-                self.print_current_state()
-                # SET DYNAMIC이 체크되어 있다면 Profile 설정
-                if self.chk3_set_dynamic.isChecked():
-                    QTest.qWait(3000)
-                    self.btn8_set_profile_dynamic_func()
-                # CONTINUE SYNC가 체크되어 있다면 동기화 작업
-                if self.chk1_sync.isChecked():
-                    QTest.qWait(3000)
-                    self.btn2_enable_sync_func()
-            # 모자이크 활성화에 실패했을때
-            else:
-                prevent_app = self.find_prevent_apps(xml)
-                reply = self.query_do_kill_processes(prevent_app, True)
-                if reply == QMessageBox.Yes:
-                    self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 활성화 합니다')
-                    self.kill_process(xml)
-                    # RECURSION_FUNCTION
-                    self.btn1_enable_mosaic_func()
-                    return
+            # 프로그램에서 error이 없을때
+            if 'error' not in xml_string:
+                # 모자이크 활성화에 성공했을때
+                if xml.attrib['valid'] == "1":
+                    self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
+                    self.print_current_state()
+                    # SET DYNAMIC이 체크되어 있다면 Profile 설정
+                    if self.chk3_set_dynamic.isChecked():
+                        QTest.qWait(3000)
+                        self.btn8_set_profile_dynamic_func()
+                    # CONTINUE SYNC가 체크되어 있다면 동기화 작업
+                    if self.chk1_sync.isChecked():
+                        QTest.qWait(3000)
+                        self.btn2_enable_sync_func()
+                # 모자이크 활성화에 실패했을때
                 else:
-                    self.btn4_clear_func()
-                    self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
-                    return
+                    prevent_app = self.find_prevent_apps(xml)
+                    reply = self.query_do_kill_processes(prevent_app, True)
+                    if reply == QMessageBox.Yes:
+                        self.textLog.appendPlainText('프로그램을 강제 종료하고 모자이크를 활성화 합니다')
+                        self.kill_process(xml)
+                        # RECURSION_FUNCTION
+                        self.btn1_enable_mosaic_func()
+                        return
+                    else:
+                        self.btn4_clear_func()
+                        self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
+                        return
+            else:
+                self.set_info_message("프로그램을 실행할수 없습니다.")
+                self.textLog.appendPlainText(xml_string)
 
     # DISABLE_MOSAIC_BUTTON
     def btn5_disable_mosaic_func(self):
