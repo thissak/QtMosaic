@@ -582,53 +582,58 @@ class WindowClass(QDialog, form_class):
     # Gobal3DPreset SET DEFAULT
     def btn7_set_profile_default_func(self):
         is_mosaic, _, _ = self.is_mosaic()
-        profile = self.get_currentProfile3D()
-        if "Workstation App - Dynamic Streaming" not in profile:
-            self.set_info_message("현재 Profile3D - default 모드입니다.")
-            return False
         if is_mosaic:
             self.set_powershell_policy()
-            self.set_info_message("Profile3D: default로 설정합니다.")
-            QTest.qWait(1000)
-            f = os.popen("powershell.exe .\\.ddi\\setDefault.ps1").read()
-            if "succeed" in f:
-                self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
-                self.textLog.appendPlainText(f)
+            # PROFILE 체크
+            profile = self.get_currentProfile3D()
+            if "Workstation App - Dynamic Streaming" not in profile:
+                self.set_info_message("현재 Profile3D - default 모드입니다.")
+                return False
+            # PROFILE3D DEFAULT모드가 아니라면
             else:
-                QMessageBox.information(self, "information",
-                                        '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
-                                        '필요합니다.</a>')
-                self.label1.setText("Profile3D 설정에 실패했습니다.")
-                self.textLog.appendPlainText(f)
-                self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
-                return
+                self.set_info_message("Profile3D: default로 설정합니다.")
+                QTest.qWait(1000)
+                f = os.popen("powershell.exe .\\.ddi\\setDefault.ps1").read()
+                if "succeed" in f:
+                    self.label1.setText("Profile3D: Default 설정에 성공했습니다.")
+                    self.textLog.appendPlainText(f)
+                else:
+                    QMessageBox.information(self, "information",
+                                            '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                            '필요합니다.</a>')
+                    self.label1.setText("Profile3D 설정에 실패했습니다.")
+                    self.textLog.appendPlainText(f)
+                    self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
+                    return
         else:
             self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
 
     # Global 3DPreset SET Workstation App - Advanced Streaming RETURN BOOL(성공하면 True, 실패하면 False 반환)
     def btn8_set_profile_dynamic_func(self):
         is_mosaic, _, _ = self.is_mosaic()
-        profile = self.get_currentProfile3D()
-        if "Workstation App - Dynamic Streaming" in profile:
-            self.set_info_message("현재 Workstation App - Dynamic Streaming 모드입니다.")
-            return False
         if is_mosaic:
-            self.set_powershell_policy()
-            self.set_info_message("Profile3D: Workstation App - Dynamic Streaming으로 설정합니다.")
-            QTest.qWait(1000)
-            f = os.popen("powershell.exe .\\.ddi\\setDynamic.ps1").read()
-            if "succeed" in f:
-                self.label1.setText("Profile3D: Workstation App - Dynamic Streaming 설정에 성공했습니다.")
-                self.textLog.appendPlainText(f)
-                return True
-            else:
-                QMessageBox.information(self, "information",
-                                        '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
-                                        '필요합니다.</a>')
-                self.label1.setText("Profile3D 설정에 실패했습니다.")
-                self.textLog.appendPlainText(f)
-                self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
+            profile = self.get_currentProfile3D()
+            if "Workstation App - Dynamic Streaming" in profile:
+                self.set_info_message("현재 Workstation App - Dynamic Streaming 모드입니다.")
                 return False
+            # 만약 PROFILE3D가 DYNAMIC이 아니라면
+            else:
+                self.set_powershell_policy()
+                self.set_info_message("Profile3D: Workstation App - Dynamic Streaming으로 설정합니다.")
+                QTest.qWait(1000)
+                f = os.popen("powershell.exe .\\.ddi\\setDynamic.ps1").read()
+                if "succeed" in f:
+                    self.label1.setText("Profile3D: Workstation App - Dynamic Streaming 설정에 성공했습니다.")
+                    self.textLog.appendPlainText(f)
+                    return True
+                else:
+                    QMessageBox.information(self, "information",
+                                            '<a href="https://www.nvidia.com/ko-kr/drivers/nvwmi/">NVWMI 설치가 '
+                                            '필요합니다.</a>')
+                    self.label1.setText("Profile3D 설정에 실패했습니다.")
+                    self.textLog.appendPlainText(f)
+                    self.textLog.appendPlainText('이 기능을 실행하려면 NVWMI가 필요합니다.')
+                    return False
         else:
             self.set_info_message("모자이크 상태에서만 실행 가능합니다.")
             return False
