@@ -164,7 +164,7 @@ class WindowClass(QDialog, form_class):
     # 파워쉘의 권한을 Unrestricted로 설정합니다.
     def set_powershell_policy(self):
         f = os.popen("powershell.exe Get-ExecutionPolicy").read()
-        if not f == "Unrestricted\n":
+        if "Unrestricted" not in f:
             os.popen("powershell.exe Set-ExecutionPolicy Unrestricted")
             QTest.qWait(1000)
         else:
@@ -500,6 +500,7 @@ class WindowClass(QDialog, form_class):
                 if xml.attrib['valid'] == "1":
                     self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
                     self.print_current_state()
+
                     # SET DYNAMIC이 체크되어 있다면 Profile 설정
                     if self.chk3_set_dynamic.isChecked():
                         QTest.qWait(3000)
@@ -508,6 +509,7 @@ class WindowClass(QDialog, form_class):
                     if self.chk1_sync.isChecked():
                         QTest.qWait(3000)
                         self.btn2_enable_sync_func()
+
                 # 모자이크 활성화에 실패했을때
                 else:
                     prevent_app = self.find_prevent_apps(xml)
@@ -523,7 +525,7 @@ class WindowClass(QDialog, form_class):
                         self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
                         return
             else:
-                self.set_info_message("프로그램을 실행할수 없습니다.")
+                self.set_info_message("프로그램을 실행할 수 없습니다.")
                 self.textLog.appendPlainText(xml_string)
 
     # DISABLE_MOSAIC_BUTTON
@@ -549,12 +551,14 @@ class WindowClass(QDialog, form_class):
                 if "Base Profile" not in profile:
                     self.btn7_set_profile_default_func()
                     QTest.qWait(1000)
+
             # 모자이크 비활성화
             QTest.qWait(100)
             self.set_info_message("모자이크 비활성화를 실행합니다.")
             xml, xml_string = self.set_disable_mosaic()
             self.textLog.appendPlainText(xml_string)
             valid = xml.get('valid')
+
             # 모자이크 비활성화에 실패했다면
             if valid == "0":
                 prevent_app = self.find_prevent_apps(xml)
@@ -569,6 +573,7 @@ class WindowClass(QDialog, form_class):
                     self.label1.setText("현재 모자이크 활성화 상태입니다.")
                     self.textLog.appendPlainText('응용프로그램 종료 후 다시 시도하세요.')
                     return
+
             # 모자이크 비활성화에 성공했다면
             elif xml.attrib['valid'] == "1":
                 self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
@@ -582,8 +587,9 @@ class WindowClass(QDialog, form_class):
                 "C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui"
                 ".exe")
         except:
-            print("https://howthere.org/ko/windows-10-8%EC%97%90%EC%84%9C-windowsapps-%ED%8F%B4%EB%8D%94%EC%97%90-%EC"
-                  "%95%A1%EC%84%B8%EC%8A%A4%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95")
+            self.textLog.appendPlainText("https://howthere.org/ko/windows-10-8%EC%97%90%EC%84%9C-windowsapps-%ED%8F"
+                                         "%B4%EB%8D%94%EC%97%90-%EC "
+                                         "%95%A1%EC%84%B8%EC%8A%A4%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95")
 
     # Gobal3DPreset SET DEFAULT
     def btn7_set_profile_default_func(self):
