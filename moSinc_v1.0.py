@@ -577,7 +577,8 @@ class WindowClass(QDialog, form_class):
                 "C:\\Program Files\\WindowsApps\\NVIDIACorp.NVIDIAControlPanel_8.1.962.0_x64__56jybvy8sckqj\\nvcplui"
                 ".exe")
         except:
-            print("error")
+            print("https://howthere.org/ko/windows-10-8%EC%97%90%EC%84%9C-windowsapps-%ED%8F%B4%EB%8D%94%EC%97%90-%EC"
+                  "%95%A1%EC%84%B8%EC%8A%A4%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95")
 
     # Gobal3DPreset SET DEFAULT
     def btn7_set_profile_default_func(self):
@@ -649,7 +650,6 @@ class WindowClass(QDialog, form_class):
             self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
 
 
-
 ###############################################
 # main #
 ###############################################
@@ -660,6 +660,9 @@ if __name__ == "__main__":
 
     # WindowClass의 인스턴스 생성
     myWindow = WindowClass()
+
+    # chcp 949는한국어, 65001은 UTF-8을 의미합니다. 파이참 콘솔log에 UTF-8적용 (개발전용)
+    os.system('chcp 65001')
 
     # ini파일 읽어서 적용하기
     try:
