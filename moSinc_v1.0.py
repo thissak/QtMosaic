@@ -170,7 +170,7 @@ class WindowClass(QDialog, form_class):
         else:
             self.textLog.appendPlainText("PowerShell ExecutionPolicy : Unrestricted")
 
-    # 현재 PARMETER를 RETURN STR(CHECKBOX_SYNC), STR(COMBOBOX_HZ), STR(COMBOBOX_MASTER)
+    # RETURN STR(checked), STR(index), STR(checked), STR(checked)
     def get_params(self):
         c_sync_ = self.chk1_sync.isChecked()
         hz_ = self.combo_hz.currentIndex()
@@ -179,6 +179,7 @@ class WindowClass(QDialog, form_class):
         profile_d = self.chk3_set_dynamic.isChecked()
         return c_sync_, hz_, master_, profile_, profile_d
 
+    # PARAMS(BOOL, INT, INT, BOOL, BOOL)
     def set_params(self, c_sync_, hz_, master_, profile_, profile_d):
         self.chk1_sync.setChecked(c_sync_)
         self.combo_hz.setCurrentIndex(hz_)
@@ -206,6 +207,7 @@ class WindowClass(QDialog, form_class):
         c_sync_, hz_, master_, profile_, profile_d = self.get_params()
         self.generate_config(str(c_sync_), hz_, master_, str(profile_), str(profile_d))
 
+    # RETURN c_sync_(BOOL), hz_(INT), master_(INT), profile_(BOOL), profile_d(BOOL),
     @staticmethod
     def read_config():
         config = configparser.ConfigParser()
@@ -653,7 +655,8 @@ class WindowClass(QDialog, form_class):
     def btn9_open_listener_func(self):
         f = os.popen("tasklist").read()
         if "SwitchboardListener.exe" not in f:
-            os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe")
+            s = os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe").read()
+            self.textLog.appendPlainText(s)
             f = os.popen("tasklist").read()
             if "SwitchboardListener.exe" in f:
                 self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
