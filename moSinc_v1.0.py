@@ -6,10 +6,12 @@
 #########################
 
 import os
+import subprocess
 import xml.etree.ElementTree as ET
 import sys
 import subprocess
 import configparser
+from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtTest import *
@@ -141,6 +143,7 @@ class WindowClass(QDialog, form_class):
         self.set_button("btn6_open_Nvcpl", "free-icon-menu-4317959", sheet_params)
         self.set_button("btn7_set_default", "free-icon-cart-4318459", sheet_params)
         self.set_button("btn8_set_dynamic", "free-icon-cart-4318465", sheet_params)
+        self.set_button("btn9_open_listener", "unreal", sheet_params)
         self.chk1_sync.setStyleSheet(sheet_params)
         self.chk2_set_default.setStyleSheet(sheet_params)
         self.chk3_set_dynamic.setStyleSheet(sheet_params)
@@ -207,7 +210,7 @@ class WindowClass(QDialog, form_class):
         c_sync_, hz_, master_, profile_, profile_d = self.get_params()
         self.generate_config(str(c_sync_), hz_, master_, str(profile_), str(profile_d))
 
-    # RETURN c_sync_(BOOL), hz_(INT), master_(INT), profile_(BOOL), profile_d(BOOL),
+    # READ CONFIG \\\\ RETURN c_sync_(BOOL), hz_(INT), master_(INT), profile_(BOOL), profile_d(BOOL),
     @staticmethod
     def read_config():
         config = configparser.ConfigParser()
@@ -465,6 +468,14 @@ class WindowClass(QDialog, form_class):
             sync_message = "비활성화({0})".format(sync_state)
             # 싱크 버튼세팅
             self.set_activate_btn("btn2_enable_sync", "icon_refresh_activate")
+
+        # 언리얼 LISTENER CHECK
+        f = os.popen("tasklist").read()
+        if "SwitchboardListener.exe" not in f:
+            self.set_activate_btn("btn9_open_listener", "unreal")
+        elif "SwitchboardListener.exe" in f:
+            self.set_deactivate_btn("btn9_open_listener")
+
         t = "모자이크-{0}, 동기화-{1} 상태입니다.".format(mosaic_message, sync_message)
         self.textLog.appendPlainText(f)
         self.textLog.appendPlainText(str(first_grid))
@@ -655,11 +666,29 @@ class WindowClass(QDialog, form_class):
     def btn9_open_listener_func(self):
         f = os.popen("tasklist").read()
         if "SwitchboardListener.exe" not in f:
-            s = os.popen("D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe").read()
-            self.textLog.appendPlainText(s)
-            f = os.popen("tasklist").read()
-            if "SwitchboardListener.exe" in f:
-                self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
+            path = "D:\\UE_4.27\\Engine\\Binaries\\Win64\\SwitchboardListener.exe"
+            if os.path.isfile(path):
+                # popen().read()를 쓰면 wait상태로 들어감
+                os.popen(path)
+                f = os.popen("tasklist").read()
+                if "SwitchboardListener.exe" in f:
+                    self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
+            else:
+                self.set_info_message("UE4.27 폴더를 선택하세요.")
+                p_list = ['Engine', 'Binaries', 'Win64', 'SwitchboardListener.exe']
+                folder_path = os.path.join(*p_list)
+                folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
+                if folderpath == "":
+                    return
+                else:
+                    path = os.path.join(folderpath, folder_path)
+                    os.popen(path)
+                    f = os.popen("tasklist").read()
+                    if "SwitchboardListener.exe" in f:
+                        self.label1.setText("Switchboard Listener 실행에 성공했습니다.")
+                    else:
+                        self.btn9_open_listener_func()
+
         else:
             self.set_info_message("Switchboard Listener가 이미 실행중입니다.")
 
