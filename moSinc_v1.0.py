@@ -125,6 +125,8 @@ class WindowClass(QDialog, form_class):
             self.set_button("btn7_set_default", "free-icon-cart-4318459", sheet_params)
         elif button_name == "btn8_set_dynamic":
             self.set_button("btn8_set_dynamic", "free-icon-cart-4318465", sheet_params)
+        elif button_name == "btn9_open_listener":
+            self.set_button("btn9_open_listener", "unreal_copy", sheet_params)
         elif button_name == "chk1_sync":
             self.chk1_sync.setStyleSheet(sheet_params)
         elif button_name == "chk2_set_default":
@@ -677,7 +679,7 @@ class WindowClass(QDialog, form_class):
                 self.set_info_message("UE4.27 폴더를 선택하세요.")
                 p_list = ['Engine', 'Binaries', 'Win64', 'SwitchboardListener.exe']
                 folder_path = os.path.join(*p_list)
-                folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
+                folderpath = QFileDialog.getExistingDirectory(self, 'Select UE4.27 Folder')
                 if folderpath == "":
                     return
                 else:
