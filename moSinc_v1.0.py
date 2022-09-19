@@ -473,13 +473,16 @@ class WindowClass(QDialog, form_class):
 
         # 언리얼 LISTENER CHECK
         f = os.popen("tasklist").read()
+        f_ = f.split("\n")
         if "SwitchboardListener.exe" not in f:
             self.set_activate_btn("btn9_open_listener", "unreal")
         elif "SwitchboardListener.exe" in f:
             self.set_deactivate_btn("btn9_open_listener")
 
         t = "모자이크-{0}, 동기화-{1} 상태입니다.".format(mosaic_message, sync_message)
-        self.textLog.appendPlainText(f)
+        for i in f_:
+            if "SwitchboardListener" in i:
+                self.textLog.appendPlainText(i)
         self.textLog.appendPlainText(str(first_grid))
         self.textLog.appendPlainText(str(next_grid))
         self.label1.setText(t)
