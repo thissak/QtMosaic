@@ -76,7 +76,7 @@
     <string>infomation을 표시합니다</string>
    </property>
    <property name="text">
-    <string>Information</string>
+    <string>Information window</string>
    </property>
    <property name="scaledContents">
     <bool>false</bool>
@@ -607,8 +607,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>28</width>
-      <height>28</height>
+      <width>20</width>
+      <height>20</height>
      </size>
     </property>
    </widget>
@@ -727,7 +727,7 @@
   </widget>
   <widget class="QPushButton" name="btn10_icon_mosaic">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="geometry">
     <rect>

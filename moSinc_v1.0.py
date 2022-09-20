@@ -41,9 +41,10 @@ class WindowClass(QDialog, form_class):
         self.btn8_set_dynamic.clicked.connect(self.btn8_set_profile_dynamic_func)
         self.btn9_open_listener.clicked.connect(self.btn9_open_listener_func)
         # check button
-        self.chk1_sync.stateChanged.connect(self.chk1_set_sync_func)
-        self.chk2_set_default.stateChanged.connect(self.chk2_set_default_func)
-        self.chk3_set_dynamic.stateChanged.connect(self.chk3_set_dynamic_func)
+        self.chk1_sync.clicked.connect(self.chk1_set_sync_func)
+        self.chk1_sync.stateChanged.connect(self.chk1_set_sync_without_label_func)
+        self.chk2_set_default.clicked.connect(self.chk2_set_default_func)
+        self.chk3_set_dynamic.clicked.connect(self.chk3_set_dynamic_func)
         # combo box
         self.combo_hz.currentIndexChanged.connect(self.get_combo_hz_func)
         self.combo_master.currentIndexChanged.connect(self.get_combo_master_func)
@@ -359,6 +360,15 @@ class WindowClass(QDialog, form_class):
             else:
                 self.label1.setText("모자이크 활성화만 실행합니다.")
 
+    # 라벨에 글씨가 없는 버전, stateChanged func로 클릭하지 않아도 작동한다. 클릭하지 않아도 싱크버튼 비활성화
+    def chk1_set_sync_without_label_func(self):
+        if self.chk1_sync.isChecked():
+            self.btn2_enable_sync.setEnabled(False)
+
+        elif not self.chk1_sync.isChecked():
+            self.btn2_enable_sync.setEnabled(True)
+
+
     # DISABLE MOSAIC에 연관된 옵션
     def chk2_set_default_func(self):
         if self.chk2_set_default.isChecked():
@@ -393,9 +403,9 @@ class WindowClass(QDialog, form_class):
             self.btn11_icon_sync.setEnabled(state)
 
     def check_ms_icon(self):
-        self.textLog.clear()
+        self.set_info_message("Checking current state of mosaic, qsync")
         is_synced, sync_state, f = self.is_synced()
-        is_mosaic, first_grid, next_grid = self.is_mosaic()
+        is_mosaic, _, _ = self.is_mosaic()
 
         if is_mosaic:
             self.set_icon_mosaic(True)
@@ -406,6 +416,8 @@ class WindowClass(QDialog, form_class):
             self.set_icon_sync(True)
         else:
             self.set_icon_sync(False)
+
+
 
 
     ###############################################
@@ -422,6 +434,7 @@ class WindowClass(QDialog, form_class):
         # 만약 동기화 상태라면 메시지 출력
         if is_synced:
             self.label1.setText("현재 동기화(%s) 상태입니다." % sync_state)
+            self.set_icon_sync(True)
             self.textLog.appendPlainText(f)
         # 동기화가 아니고 모자이크도 비활성화라면 메시지 출력
         elif not is_mosaic:
@@ -459,6 +472,7 @@ class WindowClass(QDialog, form_class):
             is_synced, sync_state, f = self.is_synced()
             if is_synced:
                 self.set_info_message("동기화(%s) 작업에 성공했습니다." % sync_state)
+                self.set_icon_sync(True)
                 self.set_deactivate_btn("btn2_enable_sync")
     # CHECK_CURRENT_BUTTON
     def bnt3_check_current_func(self):
@@ -590,6 +604,7 @@ class WindowClass(QDialog, form_class):
         if is_synced:
             self.set_info_message("동기화 비활성화를 실행합니다.")
             os.popen('C:\\configureQSync.exe -qsync')
+            self.set_icon_sync(False)
         hz_ = self.get_combo_hz_func()
 
         # 만약 모자이크 비활성화 상태입라면
@@ -765,8 +780,8 @@ if __name__ == "__main__":
 
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
-    myWindow.btn4_clear_func()
     myWindow.check_ms_icon()
+    myWindow.btn4_clear_func()
 
     # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
     app.exec()

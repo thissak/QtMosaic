@@ -52,8 +52,8 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>30</y>
-     <width>931</width>
+     <y>50</y>
+     <width>761</width>
      <height>51</height>
     </rect>
    </property>
@@ -66,14 +66,23 @@
    <property name="font">
     <font>
      <family>D2Coding</family>
-     <pointsize>15</pointsize>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="toolTip">
     <string>infomation을 표시합니다</string>
    </property>
    <property name="text">
-    <string>Information</string>
+    <string>Information window</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
    </property>
    <property name="margin">
     <number>6</number>
@@ -83,7 +92,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>480</y>
+     <y>500</y>
      <width>861</width>
      <height>241</height>
     </rect>
@@ -102,7 +111,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>110</y>
+     <y>130</y>
      <width>351</width>
      <height>311</height>
     </rect>
@@ -324,7 +333,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>110</y>
+     <y>130</y>
      <width>331</width>
      <height>111</height>
     </rect>
@@ -416,7 +425,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>220</y>
+     <y>240</y>
      <width>331</width>
      <height>201</height>
     </rect>
@@ -425,6 +434,9 @@
     <font>
      <family>Bahnschrift Light</family>
      <pointsize>14</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="title">
@@ -595,8 +607,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>28</width>
-      <height>28</height>
+      <width>20</width>
+      <height>20</height>
      </size>
     </property>
    </widget>
@@ -605,7 +617,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>440</y>
+     <y>460</y>
      <width>861</width>
      <height>20</height>
     </rect>
@@ -618,7 +630,7 @@
    <property name="geometry">
     <rect>
      <x>67</x>
-     <y>80</y>
+     <y>100</y>
      <width>851</width>
      <height>20</height>
     </rect>
@@ -631,7 +643,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>110</y>
+     <y>130</y>
      <width>161</width>
      <height>311</height>
     </rect>
@@ -640,6 +652,9 @@
     <font>
      <family>Bahnschrift Light</family>
      <pointsize>14</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="title">
@@ -709,6 +724,70 @@
      <string>Set Default</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="btn10_icon_mosaic">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>50</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/Green_Light_Icon.svg</normaloff>icons/Green_Light_Icon.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>28</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn11_icon_sync">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>50</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/Green_Light_Icon.svg</normaloff>icons/Green_Light_Icon.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>28</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
