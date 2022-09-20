@@ -381,6 +381,34 @@ class WindowClass(QDialog, form_class):
                 self.label1.setText("모자이크 활성화만 실행합니다.")
 
     ###############################################
+    # ICON FUNCTION ###############################
+    ###############################################
+
+    def set_icon_mosaic(self, state):
+        if state is not self.btn10_icon_mosaic.isEnabled():
+            self.btn10_icon_mosaic.setEnabled(state)
+
+    def set_icon_sync(self, state):
+        if state is not self.btn11_icon_sync.isEnabled():
+            self.btn11_icon_sync.setEnabled(state)
+
+    def check_ms_icon(self):
+        self.textLog.clear()
+        is_synced, sync_state, f = self.is_synced()
+        is_mosaic, first_grid, next_grid = self.is_mosaic()
+
+        if is_mosaic:
+            self.set_icon_mosaic(True)
+        else:
+            self.set_icon_mosaic(False)
+
+        if is_synced:
+            self.set_icon_sync(True)
+        else:
+            self.set_icon_sync(False)
+
+
+    ###############################################
     # BUTTON FUNCTION #############################
     ###############################################
 
@@ -442,6 +470,7 @@ class WindowClass(QDialog, form_class):
         if is_mosaic:
             mosaic_message = "활성화"
             # 버튼세팅
+            self.set_icon_mosaic(True)
             self.set_deactivate_btn("btn1_enable_mosaic")
             self.set_activate_btn("btn5_disable_mosaic", "free-icon-lightbulb-4318471")
             # 3D PROFILE CHECK
@@ -457,6 +486,7 @@ class WindowClass(QDialog, form_class):
         elif not is_mosaic:
             mosaic_message = "비활성화"
             # 버튼세팅
+            self.set_icon_mosaic(False)
             self.set_activate_btn("btn1_enable_mosaic", "icon_link_activate")
             self.set_deactivate_btn("btn5_disable_mosaic")
 
@@ -464,11 +494,13 @@ class WindowClass(QDialog, form_class):
         if is_synced:
             sync_message = "활성화({0})".format(sync_state)
             # 싱크 버튼세팅
+            self.set_icon_sync(True)
             self.set_deactivate_btn("btn2_enable_sync")
             self.set_deactivate_btn("chk1_sync")
         elif not is_synced:
             sync_message = "비활성화({0})".format(sync_state)
             # 싱크 버튼세팅
+            self.set_icon_sync(False)
             self.set_activate_btn("btn2_enable_sync", "icon_refresh_activate")
 
         # 언리얼 LISTENER CHECK
@@ -503,6 +535,7 @@ class WindowClass(QDialog, form_class):
         if is_mosaic:
             self.textLog.clear()
             self.label1.setText("현재 모자이크 상태입니다.")
+            self.set_icon_mosaic(True)
             self.print_current_state()
             return
 
@@ -518,6 +551,7 @@ class WindowClass(QDialog, form_class):
             # 모자이크 활성화에 성공했을때
             if xml.attrib['valid'] == "1":
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
+                self.set_icon_mosaic(True)
                 self.set_deactivate_btn("btn1_enable_mosaic")
                 self.print_current_state()
 
@@ -562,6 +596,7 @@ class WindowClass(QDialog, form_class):
         is_mosaic, firstgrid, nextgrid = self.is_mosaic()
         if not is_mosaic:
             self.label1.setText("현재 모자이크 비활성화 상태입니다.")
+            self.set_icon_mosaic(False)
             self.print_current_state()
             return
         # 만약 모자이크 상태라면 모자이크 비활성화
@@ -598,6 +633,7 @@ class WindowClass(QDialog, form_class):
             # 모자이크 비활성화에 성공했다면
             elif xml.attrib['valid'] == "1":
                 self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
+                self.set_icon_mosaic(False)
                 self.set_deactivate_btn("btn5_disable_mosaic")
                 self.print_current_state()
 
@@ -730,6 +766,7 @@ if __name__ == "__main__":
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
     myWindow.btn4_clear_func()
+    myWindow.check_ms_icon()
 
     # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
     app.exec()
