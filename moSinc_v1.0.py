@@ -470,7 +470,7 @@ class WindowClass(QDialog, form_class):
             if "ENABLED" in f:
                 self.set_icon_sync(True)
                 self.set_deactivate_btn("btn2_enable_sync")
-                self.textLog.appendPlainText(f)
+                # self.textLog.appendPlainText(f)
                 if "WARNING" not in f:
                     for i in f_:
                         if "ENABLED" in i:
