@@ -474,13 +474,14 @@ class WindowClass(QDialog, form_class):
                 if "WARNING" not in f:
                     for i in f_:
                         if "ENABLED" in i:
-                            self.set_info_message("동기화 작업에 성공했습니다.\n(%s)" % i)
+                            self.set_info_message("동기화 작업에 성공했습니다.\n(%s)" % i.lstrip())
                 else:
                     # WARNIGN MESSAGE 추출
                     for i in f_:
                         if "WARNING" in i:
                             warning = i
                     self.set_info_message("동기화 작업에 성공했지만 경고 메시지가 있습니다.\n(%s)" % warning)
+
     # CHECK_CURRENT_BUTTON
     def bnt3_check_current_func(self):
         self.textLog.clear()
