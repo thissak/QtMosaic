@@ -163,7 +163,7 @@ class WindowClass(QDialog, form_class):
 
     # 버튼 클릭시 기존의 label, log를 지우고 information에 message를 출력
     def set_info_message(self, message):
-        self.btn4_clear_func()
+        # self.btn4_clear_func()
         self.label1.setText(message)
         QTest.qWait(100)
 
@@ -253,6 +253,7 @@ class WindowClass(QDialog, form_class):
             f = os.popen('C:\\configureQSync.exe +qsync slave display 0,1').read()
         self.textLog.appendPlainText(f)
         QTest.qWait(3000)
+        return f
 
     # 현재 동기화상태와 MASTER_SLAVE 상태 체크: RETURN: is_synced(BOOL), sync_state(STR), f(STR)
     def is_synced(self):
@@ -368,7 +369,6 @@ class WindowClass(QDialog, form_class):
         elif not self.chk1_sync.isChecked():
             self.btn2_enable_sync.setEnabled(True)
 
-
     # DISABLE MOSAIC에 연관된 옵션
     def chk2_set_default_func(self):
         if self.chk2_set_default.isChecked():
@@ -417,9 +417,6 @@ class WindowClass(QDialog, form_class):
         else:
             self.set_icon_sync(False)
 
-
-
-
     ###############################################
     # BUTTON FUNCTION #############################
     ###############################################
@@ -464,16 +461,26 @@ class WindowClass(QDialog, form_class):
             elif not self.chk3_set_dynamic.isChecked():
                 # 동기화 실행
                 QTest.qWait(300)
-                self.set_enable_sync()
+                f = self.set_enable_sync()
+                f_ = f.split("\n")
 
             # 10초 wait
             QTest.qWait(8000)
             # 결과 출력
-            is_synced, sync_state, f = self.is_synced()
-            if is_synced:
-                self.set_info_message("동기화(%s) 작업에 성공했습니다." % sync_state)
+            if "ENABLED" in f:
                 self.set_icon_sync(True)
                 self.set_deactivate_btn("btn2_enable_sync")
+                self.textLog.appendPlainText(f)
+                if "WARNING" not in f:
+                    for i in f_:
+                        if "ENABLED" in i:
+                            self.set_info_message("동기화 작업에 성공했습니다.\n(%s)" % i)
+                else:
+                    # WARNIGN MESSAGE 추출
+                    for i in f_:
+                        if "WARNING" in i:
+                            warning = i
+                    self.set_info_message("동기화 작업에 성공했지만 경고 메시지가 있습니다.\n(%s)" % warning)
     # CHECK_CURRENT_BUTTON
     def bnt3_check_current_func(self):
         self.textLog.clear()
