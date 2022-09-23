@@ -135,6 +135,33 @@ class WindowClass(QDialog, form_class):
         elif button_name == "chk3_set_dynamic":
             self.chk3_set_dynamic.setStyleSheet(sheet_params)
 
+    def set_default_btn(self, button_name):
+        sheet_params = ""
+        if button_name == "btn1_enable_mosaic":
+            self.set_button("btn1_enable_mosaic", "free-icon-link-4318475", sheet_params)
+        elif button_name == "btn2_enable_sync":
+            self.set_button("btn2_enable_sync", "free-icon-refresh-4318508", sheet_params)
+        elif button_name == "btn3_check_current":
+            self.set_button("btn3_check_current", "free-icon-search-4318520", sheet_params)
+        elif button_name == "btn4_clear":
+            self.set_button("btn4_clear", "free-icon-trash-4318544", sheet_params)
+        elif button_name == "btn5_disable_mosaic":
+            self.set_button("btn5_disable_mosaic", "free-icon-close-4318452", sheet_params)
+        elif button_name == "btn6_open_Nvcpl":
+            self.set_button("btn6_open_Nvcpl", "free-icon-menu-4317959", sheet_params)
+        elif button_name == "btn7_set_default":
+            self.set_button("btn7_set_default", "free-icon-cart-4318459", sheet_params)
+        elif button_name == "btn8_set_dynamic":
+            self.set_button("btn8_set_dynamic", "free-icon-cart-4318465", sheet_params)
+        elif button_name == "btn9_open_listener":
+            self.set_button("btn9_open_listener", "unreal_copy", sheet_params)
+        elif button_name == "chk1_sync":
+            self.chk1_sync.setStyleSheet(sheet_params)
+        elif button_name == "chk2_set_default":
+            self.chk2_set_default.setStyleSheet(sheet_params)
+        elif button_name == "chk3_set_dynamic":
+            self.chk3_set_dynamic.setStyleSheet(sheet_params)
+
     def clear_btns_icon_label(self):
         # sheet_params = "color: gray; font: Italic;"
         sheet_params = ""
@@ -575,6 +602,7 @@ class WindowClass(QDialog, form_class):
                 self.label1.setText("{0}hz 모자이크 활성화에 성공했습니다.".format(hz_))
                 self.set_icon_mosaic(True)
                 self.set_deactivate_btn("btn1_enable_mosaic")
+                self.set_default_btn("btn5_disable_mosaic")
                 self.print_current_state()
 
                 # SET DYNAMIC이 체크되어 있다면 Profile 설정
@@ -613,6 +641,7 @@ class WindowClass(QDialog, form_class):
             self.set_info_message("동기화 비활성화를 실행합니다.")
             os.popen('C:\\configureQSync.exe -qsync')
             self.set_icon_sync(False)
+            self.set_default_btn("btn2_enable_sync")
         hz_ = self.get_combo_hz_func()
 
         # 만약 모자이크 비활성화 상태입라면
@@ -658,6 +687,7 @@ class WindowClass(QDialog, form_class):
                 self.label1.setText("{0}hz 모자이크 비활성화에 성공했습니다.".format(hz_))
                 self.set_icon_mosaic(False)
                 self.set_deactivate_btn("btn5_disable_mosaic")
+                self.set_default_btn("btn1_enable_mosaic")
                 self.print_current_state()
 
     # OPEN NVCPL
