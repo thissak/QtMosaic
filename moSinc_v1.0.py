@@ -282,6 +282,10 @@ class WindowClass(QDialog, form_class):
         QTest.qWait(3000)
         return f
 
+    def set_disable_sync(self):
+        self.set_info_message("동기화 비활성화를 실행합니다.")
+        os.popen('C:\\configureQSync.exe -qsync')
+
     # 현재 동기화상태와 MASTER_SLAVE 상태 체크: RETURN: is_synced(BOOL), sync_state(STR), f(STR)
     def is_synced(self):
         f = os.popen('C:\\configureQSync.exe ?queryTopo').read()
@@ -494,7 +498,7 @@ class WindowClass(QDialog, form_class):
             # 10초 wait
             QTest.qWait(8000)
             # 결과 출력
-            if "ENABLED" in f:
+            if "ERROR" not in f:
                 self.set_icon_sync(True)
                 self.set_deactivate_btn("btn2_enable_sync")
                 # self.textLog.appendPlainText(f)
@@ -508,6 +512,10 @@ class WindowClass(QDialog, form_class):
                         if "WARNING" in i:
                             warning = i
                     self.set_info_message("동기화 작업에 성공했지만 경고 메시지가 있습니다.\n(%s)" % warning)
+            else:
+                self.set_info_message("동기화 작업에 실패했습니다.")
+                # 잘못연결된 싱크 해제
+                os.popen('C:\\configureQSync.exe -qsync')
 
     # CHECK_CURRENT_BUTTON
     def bnt3_check_current_func(self):
