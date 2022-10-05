@@ -493,7 +493,7 @@ class WindowClass(QDialog, form_class):
                 # 동기화 실행
                 QTest.qWait(300)
                 f = self.set_enable_sync()
-                f_ = f.split("\n")
+
 
             # 10초 wait
             QTest.qWait(8000)
@@ -502,6 +502,7 @@ class WindowClass(QDialog, form_class):
                 self.set_icon_sync(True)
                 self.set_deactivate_btn("btn2_enable_sync")
                 # self.textLog.appendPlainText(f)
+                f_ = f.split("\n")
                 if "WARNING" not in f:
                     for i in f_:
                         if "ENABLED" in i:
